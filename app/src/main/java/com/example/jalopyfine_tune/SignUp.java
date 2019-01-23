@@ -59,7 +59,29 @@ public class SignUp extends AppCompatActivity {
             boolean valid=true;
 
 
-            if (phone.isEmpty()) {
+            if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            (phone.isEmpty()) {
                 et_phoneSignup.setError("Enter phone number");
                 valid=false;
             }
