@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -55,32 +59,47 @@
 
 
         <EditText
-            android:id="@+id/Password"
+            android:id="@+id/Password_SignUp"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginTop="15dp"
+            android:background="@drawable/edit_round"
+            android:drawableLeft="@drawable/ic_lock_black_24dp"
             android:ems="10"
             android:hint="Password"
             android:inputType="textPassword"
+
+
+            />
+
+        <EditText
+            android:id="@+id/Confirm_Password"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/edit_round"
             android:drawableLeft="@drawable/ic_lock_black_24dp"
+            android:ems="10"
+            android:hint="Confirm Password"
+            android:inputType="textPassword"
 
 
             />
 
         <Button
-            android:id="@+id/signupbtn2"
+            android:id="@+id/SignUpbtn2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sign Up"
             android:layout_marginTop="40dp"
-            android:textSize="20dp"
-            android:textAllCaps="false"
             android:background="@drawable/button_round"
+            android:text="Sign Up"
+            android:textAllCaps="false"
             android:textColor="#C7E6EC"
+            android:textSize="20dp"
 
-           />
+            />
 
 
     </LinearLayout>
 </RelativeLayout>
+</ScrollView>

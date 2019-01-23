@@ -23,6 +23,7 @@
             android:textColor="#C7E6EC"
             android:textAllCaps="false"
             android:background="@drawable/button_round"
+
             />
     <Button
         android:id="@+id/SignUpbtn"
