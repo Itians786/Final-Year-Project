@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <TextView
+        android:id="@+id/section_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Car Services"
+       />
+
+    <Button
+        android:id="@+id/Car_m"
+        android:layout_width="170dp"
+        android:layout_height="150dp"
+        android:text="Mechanical"
+        android:layout_marginTop="70dp"
+
+        />
+
+    <Button
+        android:id="@+id/Car_e"
+        android:layout_width="170dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="70dp"
+        android:layout_toRightOf="@+id/Car_m"
+        android:text="Electrical"
+
+        />
+
+    <Button
+        android:id="@+id/Car_t"
+        android:layout_width="170dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="250dp"
+        android:text="Tyre Flat"
+
+        />
+
+    <Button
+        android:id="@+id/Bike_p"
+        android:layout_width="170dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="250dp"
+        android:layout_toRightOf="@+id/Car_m"
+        android:text="Petrol"
+
+
+        />
+
+
+</RelativeLayout>

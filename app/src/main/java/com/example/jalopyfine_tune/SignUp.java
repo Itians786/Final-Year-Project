@@ -1,5 +1,6 @@
 package com.example.jalopyfine_tune;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -14,7 +15,7 @@ public class SignUp extends AppCompatActivity {
 
     private EditText  et_phoneSignup, et_nameSingup, et_emailSignup, et_passwordSignup, et_confirmpwdSignup;
     private  String   phone, name, email,password , confirmpassword;
-    Button signupbtn2;
+    Button signupbtn2,pra;
 
 
     @Override
@@ -28,6 +29,15 @@ public class SignUp extends AppCompatActivity {
         et_passwordSignup = findViewById(R.id.Password_SignUp);
         et_confirmpwdSignup = findViewById(R.id.Confirm_Password);
         signupbtn2 = findViewById(R.id.SignUpbtn2);
+        pra=findViewById(R.id.button);
+
+        pra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent p=new Intent(SignUp.this,Services.class);
+                startActivity(p);
+            }
+        });
 
         signupbtn2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,25 +72,6 @@ public class SignUp extends AppCompatActivity {
             if
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             (phone.isEmpty()) {
                 et_phoneSignup.setError("Enter phone number");
                 valid=false;
@@ -113,7 +104,6 @@ public class SignUp extends AppCompatActivity {
 
 
         }
-
 
         public void initialize ()
         {
