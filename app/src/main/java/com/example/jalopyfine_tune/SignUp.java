@@ -34,7 +34,7 @@ public class SignUp extends AppCompatActivity {
         pra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent p=new Intent(SignUp.this,Services.class);
+                Intent p=new Intent(SignUp.this,Navigation.class);
                 startActivity(p);
             }
         });

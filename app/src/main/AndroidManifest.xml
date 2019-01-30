@@ -14,8 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Services"
-            android:label="@string/title_activity_services"
+            android:name=".Navigation"
+            android:label="@string/title_activity_navigation"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".SignIn" />
         <activity android:name=".SignUp" />
