@@ -15,7 +15,7 @@ public class SignUp extends AppCompatActivity {
 
     private EditText  et_phoneSignup, et_nameSingup, et_emailSignup, et_passwordSignup, et_confirmpwdSignup;
     private  String   phone, name, email,password , confirmpassword;
-    Button signupbtn2,pra;
+    Button signupbtn2;
 
 
     @Override
@@ -29,15 +29,7 @@ public class SignUp extends AppCompatActivity {
         et_passwordSignup = findViewById(R.id.Password_SignUp);
         et_confirmpwdSignup = findViewById(R.id.Confirm_Password);
         signupbtn2 = findViewById(R.id.SignUpbtn2);
-        pra=findViewById(R.id.button);
 
-        pra.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent p=new Intent(SignUp.this,Navigation.class);
-                startActivity(p);
-            }
-        });
 
         signupbtn2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +52,8 @@ public class SignUp extends AppCompatActivity {
         public void onSinUpSuccess ()
         {
             Toast.makeText(this, "we have signed up successfully", Toast.LENGTH_SHORT).show();
-
+            Intent i_services=new Intent(SignUp.this, Navigation.class);
+            startActivity(i_services);
         }
 
 
@@ -84,7 +77,12 @@ public class SignUp extends AppCompatActivity {
 
             }
 
-            if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches() ) ;
+            if (email.isEmpty()) {
+                et_emailSignup.setError("please enter ");
+                valid = false;
+            }
+
+            else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches())
             {
                 et_emailSignup.setError("please enter valid te email adress");
                 valid = false;
@@ -97,9 +95,18 @@ public class SignUp extends AppCompatActivity {
 
 
             if (confirmpassword.isEmpty()) {
-                et_confirmpwdSignup.setError("Enter phone number");
+                et_confirmpwdSignup.setError("Enter conferm");
                 valid = false;
             }
+            else if (!confirmpassword.equals(password)){
+
+                et_confirmpwdSignup.setError("Not Match");
+                valid = false;
+
+            }
+
+
+
             return valid;
 
 

@@ -5,6 +5,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#483d8b"
     >
 
     <TextView
@@ -12,43 +13,67 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Car Services"
+        android:textColor="#ffffff"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="120dp"
        />
 
     <Button
         android:id="@+id/Car_m"
-        android:layout_width="170dp"
+        android:layout_width="150dp"
         android:layout_height="150dp"
         android:text="Mechanical"
         android:layout_marginTop="70dp"
-
+        android:textColor="#ffffff"
+        android:background="@drawable/button_round"
+        android:layout_marginLeft="20dp"
         />
 
     <Button
         android:id="@+id/Car_e"
-        android:layout_width="170dp"
+        android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="70dp"
         android:layout_toRightOf="@+id/Car_m"
         android:text="Electrical"
-
+        android:textColor="#ffffff"
+        android:background="@drawable/button_round"
+        android:layout_marginLeft="10dp"
         />
 
     <Button
         android:id="@+id/Car_t"
-        android:layout_width="170dp"
+        android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="250dp"
         android:text="Tyre Flat"
-
+        android:textColor="#ffffff"
+        android:background="@drawable/button_round"
+        android:layout_marginLeft="20dp"
         />
 
     <Button
         android:id="@+id/Bike_p"
-        android:layout_width="170dp"
+        android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="250dp"
         android:layout_toRightOf="@+id/Car_m"
         android:text="Petrol"
+        android:textColor="#ffffff"
+        android:background="@drawable/button_round"
+        android:layout_marginLeft="10dp"
+
+        />
+
+    <Button
+        android:id="@+id/Car_o"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="420dp"
+        android:text="Other"
+        android:textColor="#ffffff"
+        android:background="@drawable/button_round"
+        android:layout_centerHorizontal="true"
 
 
         />
