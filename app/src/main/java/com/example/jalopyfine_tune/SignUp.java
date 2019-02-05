@@ -84,25 +84,25 @@ public class SignUp extends AppCompatActivity {
         });*/
 
        signupbtn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                phone = et_phoneSignup.getText().toString();
-                name = et_nameSingup.getText().toString();
-                email = et_emailSignup.getText().toString();
-                password = et_passwordSignup.getText().toString();
-                confirmpassword = et_confirmpwdSignup.getText().toString();
-
-                if (!validate()) {
-                    Toast.makeText(SignUp.this, "this signup has been failed", Toast.LENGTH_LONG).show();
-                }// call when the button clicked to validate the input
-
-
-                String m_email = et_emailSignup.getText().toString();
-                String m_pwd = et_passwordSignup.getText().toString();
-
-                mAuth.createUserWithEmailAndPassword(m_email, m_pwd).addOnCompleteListener(SignUp.this, new OnCompleteListener<AuthResult>() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+                    public void onClick(View v) {
+                        phone = et_phoneSignup.getText().toString();
+                        name = et_nameSingup.getText().toString();
+                        email = et_emailSignup.getText().toString();
+                        password = et_passwordSignup.getText().toString();
+                        confirmpassword = et_confirmpwdSignup.getText().toString();
+
+                        if (!validate()) {
+                            Toast.makeText(SignUp.this, "this signup has been failed", Toast.LENGTH_LONG).show();
+                        }// call when the button clicked to validate the input
+
+
+                //String m_email = et_emailSignup.getText().toString();
+                //String m_pwd = et_passwordSignup.getText().toString();
+                        else{
+                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(SignUp.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(Task<AuthResult> task) {
                         if (!task.isSuccessful()){
                             Toast.makeText(SignUp.this, "Signup Error", Toast.LENGTH_SHORT).show();
                         } else{
@@ -115,6 +115,8 @@ public class SignUp extends AppCompatActivity {
                     }
                 });
             }
+
+                    }
         });
     }
 

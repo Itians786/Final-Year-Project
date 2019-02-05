@@ -21,7 +21,7 @@ public class SignIn extends AppCompatActivity {
     EditText email_signin, password_signin;
     Button signinbtn2;
 
-    FirebaseAuth mAuth;
+    FirebaseAuth mmAuth;
     FirebaseAuth.AuthStateListener firebaseAuthListener;
 
     @Override
@@ -35,7 +35,7 @@ public class SignIn extends AppCompatActivity {
 
         FirebaseApp.initializeApp(this);
 
-        mAuth = FirebaseAuth.getInstance();
+        mmAuth = FirebaseAuth.getInstance();
 
         firebaseAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -56,14 +56,27 @@ public class SignIn extends AppCompatActivity {
             public void onClick(View v) {
                 final String email = email_signin.getText().toString();
                 final String password = password_signin.getText().toString();
-                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(SignIn.this, new OnCompleteListener<AuthResult>() {
+                if(email.isEmpty()||password.isEmpty()){
+                    Toast.makeText(SignIn.this, "Enter Correct Email or Password", Toast.LENGTH_SHORT).show();
+                }
+
+                else {
+                mmAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(SignIn.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(!task.isSuccessful()){
+                        if (!task.isSuccessful()) {
                             Toast.makeText(SignIn.this, "Login Error", Toast.LENGTH_SHORT).show();
+                        } else {
+
+                            Toast.makeText(SignIn.this, "Login Succesfully", Toast.LENGTH_SHORT).show();
+
+
                         }
+
                     }
                 });
+            }
+
             }
         });
 
@@ -72,12 +85,12 @@ public class SignIn extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(firebaseAuthListener);
+        mmAuth.addAuthStateListener(firebaseAuthListener);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mAuth.removeAuthStateListener(firebaseAuthListener);
+        mmAuth.removeAuthStateListener(firebaseAuthListener);
     }
 }
