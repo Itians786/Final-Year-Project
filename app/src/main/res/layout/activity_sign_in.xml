@@ -16,14 +16,14 @@
         >
 
         <EditText
-            android:id="@+id/Phone_Signin"
+            android:id="@+id/Email_Signin"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:ems="10"
-            android:hint="Phone"
+            android:hint="Email"
             android:drawableLeft="@drawable/ic_call_black_24dp"
             android:background="@drawable/edit_round"
-            android:inputType="phone" />
+            android:inputType="textEmailAddress" />
 
         <EditText
             android:id="@+id/Password_Signin"

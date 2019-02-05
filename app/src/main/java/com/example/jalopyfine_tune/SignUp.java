@@ -1,6 +1,7 @@
 package com.example.jalopyfine_tune;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -8,6 +9,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.regex.Pattern;
 
@@ -17,6 +27,8 @@ public class SignUp extends AppCompatActivity {
     private  String   phone, name, email,password , confirmpassword;
     Button signupbtn2;
 
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener firebaseAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,30 +42,86 @@ public class SignUp extends AppCompatActivity {
         et_confirmpwdSignup = findViewById(R.id.Confirm_Password);
         signupbtn2 = findViewById(R.id.SignUpbtn2);
 
+        FirebaseApp.initializeApp(this);
 
-        signupbtn2.setOnClickListener(new View.OnClickListener() {
+        mAuth = FirebaseAuth.getInstance();
+        firebaseAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                if (user != null) {
+                    Intent intent = new Intent(SignUp.this, Navigation.class);
+                    startActivity(intent);
+                    finish();
+                    return;
+                }
+            }
+        };
+
+        /*signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                register(); // call when the button clicked to validate the input
+
+                String email = email_et.getText().toString();
+                String password = pwd_et.getText().toString();
+
+                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(SignUp.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (!task.isSuccessful()){
+                            Toast.makeText(SignUp.this, "Signup Error", Toast.LENGTH_SHORT).show();
+                        } else{
+                            String user_id = mAuth.getCurrentUser().getUid();
+                            DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(user_id);
+                            current_user_db.setValue(true);
+                            Toast.makeText(SignUp.this, "Signup Success", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+            }
+        });*/
+
+       signupbtn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                phone = et_phoneSignup.getText().toString();
+                name = et_nameSingup.getText().toString();
+                email = et_emailSignup.getText().toString();
+                password = et_passwordSignup.getText().toString();
+                confirmpassword = et_confirmpwdSignup.getText().toString();
+
+                if (!validate()) {
+                    Toast.makeText(SignUp.this, "this signup has been failed", Toast.LENGTH_LONG).show();
+                }// call when the button clicked to validate the input
+
+
+                String m_email = et_emailSignup.getText().toString();
+                String m_pwd = et_passwordSignup.getText().toString();
+
+                mAuth.createUserWithEmailAndPassword(m_email, m_pwd).addOnCompleteListener(SignUp.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (!task.isSuccessful()){
+                            Toast.makeText(SignUp.this, "Signup Error", Toast.LENGTH_SHORT).show();
+                        } else{
+                            String user_id = mAuth.getCurrentUser().getUid();
+                            DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(user_id);
+                            current_user_db.setValue(true);
+                            Toast.makeText(SignUp.this, "Signup Success", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
             }
         });
     }
 
         public void register ()
         {
-            initialize();  // initialize the input variable to string value
-            if (!validate()) {
-                Toast.makeText(this, "this signup has been failed", Toast.LENGTH_LONG).show();
-            } else {
-                onSinUpSuccess();
-            }
-        }
 
-        public void onSinUpSuccess ()
-        {
-            Toast.makeText(this, "we have signed up successfully", Toast.LENGTH_SHORT).show();
-            Intent i_services=new Intent(SignUp.this, Navigation.class);
-            startActivity(i_services);
+
         }
 
 
@@ -62,10 +130,7 @@ public class SignUp extends AppCompatActivity {
             boolean valid=true;
 
 
-            if
-
-
-            (phone.isEmpty()) {
+            if (phone.isEmpty()) {
                 et_phoneSignup.setError("Enter phone number");
                 valid=false;
             }
@@ -105,20 +170,19 @@ public class SignUp extends AppCompatActivity {
 
             }
 
-
-
             return valid;
 
-
         }
 
-        public void initialize ()
-        {
-            phone = et_phoneSignup.getText().toString().trim();
-            name = et_nameSingup.getText().toString().trim();
-            email = et_emailSignup.getText().toString().trim();
-            password = et_passwordSignup.getText().toString().trim();
-            confirmpassword = et_confirmpwdSignup.getText().toString().trim();
-        }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(firebaseAuthListener);
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mAuth.removeAuthStateListener(firebaseAuthListener);
+    }
 }
