@@ -11,13 +11,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_centerInParent="true"
+        android:layout_margin="50dp"
         >
 
         <Button
             android:id="@+id/SignInbtn"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
             android:text="Sign In"
             android:textSize="30sp"
             android:textColor="#C7E6EC"
@@ -25,17 +25,16 @@
             android:background="@drawable/button_round"
 
             />
-    <Button
-        android:id="@+id/SignUpbtn"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:text="Sign Up"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="10dp"
-        android:textSize="30sp"
-        android:textColor="#C7E6EC"
-        android:textAllCaps="false"
-        android:background="@drawable/button_round"
+        <Button
+            android:id="@+id/SignUpbtn"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Sign Up"
+            android:layout_marginTop="10dp"
+            android:textSize="30sp"
+            android:textColor="#C7E6EC"
+            android:textAllCaps="false"
+            android:background="@drawable/button_round"
 
         />
 
