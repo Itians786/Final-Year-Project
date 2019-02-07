@@ -27,8 +27,10 @@
                 android:ems="10"
                 android:hint="Phone"
                 android:inputType="phone"
-                android:background="@drawable/edit_round"
                 android:drawableLeft="@drawable/ic_call_black_24dp"
+                android:textColor="#C7E6EC"
+                android:textSize="20dp"
+                android:textColorHint="#ffffff"
                 />
 
             <EditText
@@ -39,8 +41,10 @@
                 android:ems="10"
                 android:hint="Name"
                 android:inputType="textPersonName"
-                android:background="@drawable/edit_round"
                 android:drawableLeft="@drawable/ic_person_black_24dp"
+                android:textColor="#C7E6EC"
+                android:textSize="20dp"
+                android:textColorHint="#ffffff"
                 />
 
             <EditText
@@ -52,8 +56,10 @@
                 android:ems="10"
                 android:hint="Email"
                 android:inputType="textEmailAddress"
-                android:background="@drawable/edit_round"
                 android:drawableLeft="@drawable/ic_email_black_24dp"
+                android:textColor="#C7E6EC"
+                android:textSize="20dp"
+                android:textColorHint="#ffffff"
                 />
 
 
@@ -62,12 +68,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="15dp"
-                android:background="@drawable/edit_round"
                 android:drawableLeft="@drawable/ic_lock_black_24dp"
                 android:ems="10"
                 android:hint="Password"
                 android:inputType="textPassword"
-
+                android:textColor="#C7E6EC"
+                android:textSize="20dp"
+                android:textColorHint="#ffffff"
 
                 />
 
@@ -76,11 +83,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="15dp"
-                android:background="@drawable/edit_round"
                 android:drawableLeft="@drawable/ic_lock_black_24dp"
                 android:ems="10"
                 android:hint="Confirm Password"
                 android:inputType="textPassword"
+                android:textColor="#C7E6EC"
+                android:textSize="20dp"
+                android:textColorHint="#ffffff"
                 />
 
             <Button

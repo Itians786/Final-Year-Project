@@ -22,8 +22,11 @@
             android:ems="10"
             android:hint="Email"
             android:drawableLeft="@drawable/ic_call_black_24dp"
-            android:background="@drawable/edit_round"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:textColor="#C7E6EC"
+            android:textSize="20dp"
+            android:textColorHint="#ffffff"
+            />
 
         <EditText
             android:id="@+id/Password_Signin"
@@ -34,7 +37,9 @@
             android:hint="Password"
             android:inputType="textPassword"
             android:drawableLeft="@drawable/ic_lock_black_24dp"
-            android:background="@drawable/edit_round"
+            android:textColor="#C7E6EC"
+            android:textSize="20dp"
+            android:textColorHint="#ffffff"
             />
 
         <Button

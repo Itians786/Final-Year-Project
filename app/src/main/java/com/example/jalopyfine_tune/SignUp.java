@@ -120,11 +120,6 @@ public class SignUp extends AppCompatActivity {
         });
     }
 
-        public void register ()
-        {
-
-
-        }
 
 
         public boolean validate ()

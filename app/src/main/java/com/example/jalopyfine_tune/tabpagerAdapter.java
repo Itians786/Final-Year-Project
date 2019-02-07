@@ -14,6 +14,7 @@ public class tabpagerAdapter extends FragmentStatePagerAdapter {
         super(fm);
     }
 
+
     @Override
     public CharSequence getPageTitle(int position) {
         return tabarry[position];
