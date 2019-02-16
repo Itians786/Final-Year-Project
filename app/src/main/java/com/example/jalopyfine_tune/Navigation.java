@@ -18,6 +18,9 @@ import android.view.MenuItem;
 public class Navigation extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,14 +28,17 @@ public class Navigation extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+
         TabLayout tabLayout=(TabLayout)findViewById(R.id.tabs);
         ViewPager Pager=(ViewPager)findViewById(R.id.viewpager);
 
         tabpagerAdapter Tabpageradapter=new tabpagerAdapter(getSupportFragmentManager());
         Pager.setAdapter(Tabpageradapter);
          tabLayout.setupWithViewPager(Pager);
+        tabLayout.getTabAt(0).setIcon(R.drawable.tab_bike);
 
-
+        tabLayout.getTabAt(1).setIcon(R.drawable.tab_car);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

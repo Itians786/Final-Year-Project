@@ -8,17 +8,13 @@ import android.view.ViewGroup;
 
 public class tabpagerAdapter extends FragmentStatePagerAdapter {
 
-    String[] tabarry=new String[]{"Bike","Car","Other"};
     Integer tabnumber=3;
     public tabpagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return tabarry[position];
-    }
+
 
     @Override
     public Fragment getItem(int position) {
