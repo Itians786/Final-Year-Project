@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class SignIn extends AppCompatActivity {
 
     EditText email_signin, password_signin;
-    Button signinbtn2;
+    Button signinbtn,signupbtn;
 
     FirebaseAuth mmAuth;
     FirebaseAuth.AuthStateListener firebaseAuthListener;
@@ -31,11 +31,20 @@ public class SignIn extends AppCompatActivity {
 
         email_signin = findViewById(R.id.Email_Signin);
         password_signin = findViewById(R.id.Password_Signin);
-        signinbtn2 = findViewById(R.id.SignInbtn2);
-
+        signinbtn = findViewById(R.id.SignInbtn);
+        signupbtn=findViewById(R.id.SignUpbtn);
         FirebaseApp.initializeApp(this);
 
         mmAuth = FirebaseAuth.getInstance();
+
+        signupbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(SignIn.this,SignUp.class);
+                startActivity(i);
+
+            }
+        });
 
         firebaseAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -51,7 +60,7 @@ public class SignIn extends AppCompatActivity {
             }
         };
 
-        signinbtn2.setOnClickListener(new View.OnClickListener() {
+        signinbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final String email = email_signin.getText().toString();
@@ -81,6 +90,8 @@ public class SignIn extends AppCompatActivity {
         });
 
     }
+
+
 
     @Override
     protected void onStart() {

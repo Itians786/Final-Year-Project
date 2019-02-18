@@ -59,29 +59,6 @@ public class SignUp extends AppCompatActivity {
             }
         };
 
-        /*signup_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String email = email_et.getText().toString();
-                String password = pwd_et.getText().toString();
-
-                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(SignUp.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (!task.isSuccessful()){
-                            Toast.makeText(SignUp.this, "Signup Error", Toast.LENGTH_SHORT).show();
-                        } else{
-                            String user_id = mAuth.getCurrentUser().getUid();
-                            DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(user_id);
-                            current_user_db.setValue(true);
-                            Toast.makeText(SignUp.this, "Signup Success", Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-                });
-            }
-        });*/
 
        signupbtn2.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -97,8 +74,6 @@ public class SignUp extends AppCompatActivity {
                         }// call when the button clicked to validate the input
 
 
-                //String m_email = et_emailSignup.getText().toString();
-                //String m_pwd = et_passwordSignup.getText().toString();
                         else{
                 mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(SignUp.this, new OnCompleteListener<AuthResult>() {
                     @Override
