@@ -62,7 +62,7 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
             public void onClick(View view) {
                 String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("customerRequest");
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("customerRequest");
                 GeoFire geoFire = new GeoFire(ref);
                 geoFire.setLocation(userId, new GeoLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
 
@@ -70,7 +70,7 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
                 mMap.addMarker(new MarkerOptions().position(customerLocation).title("I'm Here"));
 
 
-                request.setText("Getting free worker ....");
+                request.setText("Getting free worker . . . .");
             }
         });
 
