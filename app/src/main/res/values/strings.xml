@@ -25,5 +25,6 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="ask_for_signup">DONT HAVE AN ACCOUNT YET?</string>
+    <string name="ask_for_signup">Don\'t have an account yet?</string>
+    <string name="title_activity_bike_mechanic">Map</string>
 </resources>

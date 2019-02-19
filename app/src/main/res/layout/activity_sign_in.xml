@@ -78,41 +78,38 @@
 
     <LinearLayout
 
-        android:layout_width="410dp"
+        android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:orientation="vertical"
         android:layout_alignParentBottom="true"
-        >
+        android:orientation="vertical">
 
         <View
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="3dp"
-            android:textSize="20sp"
-            android:background="#666464" />
+            android:background="#666464"
+            android:textSize="20sp" />
 
         <TextView
-            android:layout_width="290dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="@string/ask_for_signup"
-            android:textSize="20sp"
-            android:layout_marginLeft="50dp"
             android:textColor="#ffffff"
-            />
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/SignUpbtn"
             android:layout_width="305dp"
             android:layout_height="45dp"
+            android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:background="@drawable/button_rounds"
             android:text="SIGN UP"
             android:textAllCaps="false"
-            android:layout_marginLeft="35dp"
-            android:textSize="30sp"
             android:textColor="#ffffff"
-
-
+            android:textSize="30sp"
             />
     </LinearLayout>
+
 </RelativeLayout>

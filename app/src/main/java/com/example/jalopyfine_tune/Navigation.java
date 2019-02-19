@@ -1,5 +1,6 @@
 package com.example.jalopyfine_tune;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,10 +16,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class Navigation extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-
 
 
     @Override
@@ -27,8 +28,6 @@ public class Navigation extends AppCompatActivity
         setContentView(R.layout.activity_navigation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
 
         TabLayout tabLayout=(TabLayout)findViewById(R.id.tabs);
         ViewPager Pager=(ViewPager)findViewById(R.id.viewpager);
@@ -77,7 +76,6 @@ public class Navigation extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
 
-
             return true;
         }
 
@@ -100,7 +98,14 @@ public class Navigation extends AppCompatActivity
 
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_logout) {
+
+            FirebaseAuth.getInstance().signOut();
+
+            Intent intent = new Intent(Navigation.this, SignIn.class);
+            startActivity(intent);
+
+            finish();
 
         }
 
@@ -108,4 +113,5 @@ public class Navigation extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }
