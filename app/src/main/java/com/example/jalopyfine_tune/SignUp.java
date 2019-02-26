@@ -82,7 +82,7 @@ public class SignUp extends AppCompatActivity {
                             Toast.makeText(SignUp.this, "Signup Error", Toast.LENGTH_SHORT).show();
                         } else{
                             String user_id = mAuth.getCurrentUser().getUid();
-                            DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(user_id);
+                            DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Customers").child(user_id);
                             current_user_db.setValue(true);
                             Toast.makeText(SignUp.this, "Signup Success", Toast.LENGTH_SHORT).show();
                         }
