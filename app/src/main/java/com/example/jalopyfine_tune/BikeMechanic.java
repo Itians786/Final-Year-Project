@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
+import com.firebase.geofire.GeoQuery;
+import com.firebase.geofire.GeoQueryEventListener;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -29,10 +31,17 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback {
 
@@ -71,10 +80,107 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
 
 
                 request.setText("Getting free worker . . . .");
+
+                getClosestWorker();
+            }
+
+        });
+
+    }
+
+    private int radius = 1;
+    private boolean workerFound = false;
+    private String workerFoundID;
+
+    private void getClosestWorker() {
+        DatabaseReference workerAvailble = FirebaseDatabase.getInstance().getReference().child("workerAvailable");
+
+        GeoFire geoFire = new GeoFire(workerAvailble);
+        GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(customerLocation.latitude, customerLocation.longitude), radius);
+        geoQuery.removeAllListeners();
+
+        geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
+            @Override
+            public void onKeyEntered(String key, GeoLocation location) {
+                if (!workerFound){
+                    workerFound = true;
+                    workerFoundID = key;
+
+                    DatabaseReference workerRef = FirebaseDatabase.getInstance().getReference().child("Workers").child("Bike").child("Mechanic").child(workerFoundID);
+                    String customerId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                    HashMap hashMap = new HashMap();
+                    hashMap.put("CustomerStatusId", customerId);
+                    workerRef.updateChildren(hashMap);
+
+                    getWorkerLocation();
+                    request.setText("Looking for available workers . . . .");
+                }
+            }
+
+            @Override
+            public void onKeyExited(String key) {
+
+            }
+
+            @Override
+            public void onKeyMoved(String key, GeoLocation location) {
+
+            }
+
+            @Override
+            public void onGeoQueryReady() {
+                if (!workerFound){
+                    radius++;
+                    getClosestWorker();
+                }
+            }
+
+            @Override
+            public void onGeoQueryError(DatabaseError error) {
+
             }
         });
 
     }
+
+    private Marker marker;
+    private void getWorkerLocation(){
+        DatabaseReference workerLocationRef = FirebaseDatabase.getInstance().getReference().child("WorkersInWorking").child("Bike").child("Mechanic").child(workerFoundID).child("l");
+        workerLocationRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {//This is called at every location change in seconds for the worker
+                if (dataSnapshot.exists()){
+                    List<Object> map = (List<Object>) dataSnapshot.getValue();
+                    double locationLat = 0;
+                    double locationLng = 0;
+
+                    request.setText("Worker Found");
+
+                    if (map.get(0) != null){
+                        locationLat = Double.parseDouble(map.get(0).toString());
+                    }
+                    if (map.get(1) != null){
+                        locationLng = Double.parseDouble(map.get(1).toString());
+                    }
+
+                    LatLng workerLatLng = new LatLng(locationLat, locationLng);
+                    if (marker != null){
+                        marker.remove();
+                    }
+                    marker = mMap.addMarker(new MarkerOptions().position(workerLatLng).title("Your Worker"));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+    }
+
+
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
