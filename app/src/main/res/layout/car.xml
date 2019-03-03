@@ -91,16 +91,18 @@ xmlns:android="http://schemas.android.com/apk/res/android">
         />
 
     <Button
-        android:id="@+id/Car_o"
-        android:layout_width="360dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="500dp"
-        android:text="Car Wash"
-        android:textSize="40sp"
-        android:textColor="#2341CC"
+        android:id="@+id/Car_w"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="508dp"
+        android:text="car Wash"
         android:background="@drawable/wash"
-        android:layout_centerHorizontal="true"
-
+        android:drawableTop="@drawable/car_wash"
+        android:drawablePadding="-42dip"
+        android:paddingTop="25dip"
+        android:textSize="20sp"
+        android:textColor="#ffffff"
+        android:layout_marginLeft="20dp"
         />
 
 

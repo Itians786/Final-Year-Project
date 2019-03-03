@@ -38,7 +38,6 @@ public class Navigation extends AppCompatActivity
         tabLayout.getTabAt(0).setIcon(R.drawable.tab_bike);
 
         tabLayout.getTabAt(1).setIcon(R.drawable.tab_car);
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
