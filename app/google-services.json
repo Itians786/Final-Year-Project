@@ -1,43 +1,35 @@
 {
   "project_info": {
-    "project_number": "732525944093",
-    "firebase_url": "https://jema-7a996.firebaseio.com",
-    "project_id": "jema-7a996",
-    "storage_bucket": "jema-7a996.appspot.com"
+    "project_number": "129608116406",
+    "firebase_url": "https://fyp-database-d4b89.firebaseio.com",
+    "project_id": "fyp-database-d4b89",
+    "storage_bucket": "fyp-database-d4b89.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:732525944093:android:bf19fe0e14a117f9",
+        "mobilesdk_app_id": "1:129608116406:android:bf19fe0e14a117f9",
         "android_client_info": {
           "package_name": "com.example.jalopyfine_tune"
         }
       },
       "oauth_client": [
         {
-          "client_id": "732525944093-6n9upchuq5o8lig0sume7lumdgd3q348.apps.googleusercontent.com",
+          "client_id": "129608116406-kodsned1uvqbvsen4k7a6n1g7f9m4un3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.jalopyfine_tune",
-            "certificate_hash": "7037409946a0b83ae605587534f777463b7c3918"
+            "certificate_hash": "48b9b5db6a746facaf78669506ca9ee2a486e920"
           }
         },
         {
-          "client_id": "732525944093-pi7q8a6om0hg7tjpj9cncc6rdkp9563g.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.jalopyfine_tune",
-            "certificate_hash": "2eea6cc226a82924a73411a89d492bdec5348d4e"
-          }
-        },
-        {
-          "client_id": "732525944093-v89gshc1h03qudtr6u8j9bcgu3k9pn8q.apps.googleusercontent.com",
+          "client_id": "129608116406-goc1ro68denb22vugf063i5656lqce6j.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD560OEuafhZtmgHRw0GGHy6RwoeA03MaA"
+          "current_key": "AIzaSyAaZLMD_kXmmxDikdQIV8ZSn-b-vK3crn8"
         }
       ],
       "services": {
@@ -48,51 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "732525944093-v89gshc1h03qudtr6u8j9bcgu3k9pn8q.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:732525944093:android:3320e145be66ee90",
-        "android_client_info": {
-          "package_name": "com.example.jemp"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "732525944093-96iqj7ppvfp2q63gp6kn3l6e9opmrb8r.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.jemp",
-            "certificate_hash": "2eea6cc226a82924a73411a89d492bdec5348d4e"
-          }
-        },
-        {
-          "client_id": "732525944093-v89gshc1h03qudtr6u8j9bcgu3k9pn8q.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyD560OEuafhZtmgHRw0GGHy6RwoeA03MaA"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "732525944093-v89gshc1h03qudtr6u8j9bcgu3k9pn8q.apps.googleusercontent.com",
+              "client_id": "129608116406-goc1ro68denb22vugf063i5656lqce6j.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

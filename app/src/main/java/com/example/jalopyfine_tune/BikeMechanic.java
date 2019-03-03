@@ -54,6 +54,10 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
     Button request;
     private LatLng customerLocation;
 
+    Boolean requestBol = false;
+
+    private Marker mMarker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,19 +73,48 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
         request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                if (requestBol){
+                    requestBol = false;
+                    geoQuery.removeAllListeners();
+                    workerLocationRef.removeEventListener(workerLocationRefListener);
+                    marker.remove();
 
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("customerRequest");
-                GeoFire geoFire = new GeoFire(ref);
-                geoFire.setLocation(userId, new GeoLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
+                    if (workerFoundID != null){
+                        DatabaseReference workerRef = FirebaseDatabase.getInstance().getReference().child("Workers").child("Bike").child("Mechanic").child(workerFoundID);
+                        workerRef.setValue(true);
+                        workerFoundID = null;
+                    }
 
-                customerLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(customerLocation).title("I'm Here"));
+                    workerFound = false;
+                    radius = 1;
+
+                    String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("customerRequest");
+                    GeoFire geoFire = new GeoFire(ref);
+                    geoFire.removeLocation(userId);
+
+                    if (mMarker != null){
+                        mMarker.remove();
+                    }
+                    request.setText("Find Worker");
+
+                }else {
+                    requestBol = true;
+                    String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("customerRequest");
+                    GeoFire geoFire = new GeoFire(ref);
+                    geoFire.setLocation(userId, new GeoLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
+
+                    customerLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+                    mMarker = mMap.addMarker(new MarkerOptions().position(customerLocation).title("I'm Here"));
 
 
-                request.setText("Getting free worker . . . .");
+                    request.setText("Getting free worker . . . .");
 
-                getClosestWorker();
+                    getClosestWorker();
+                }
             }
 
         });
@@ -92,17 +125,18 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
     private boolean workerFound = false;
     private String workerFoundID;
 
+    GeoQuery geoQuery;
     private void getClosestWorker() {
-        DatabaseReference workerAvailble = FirebaseDatabase.getInstance().getReference().child("workerAvailable");
+        DatabaseReference workerAvailable = FirebaseDatabase.getInstance().getReference().child("workerAvailable");
 
-        GeoFire geoFire = new GeoFire(workerAvailble);
-        GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(customerLocation.latitude, customerLocation.longitude), radius);
+        GeoFire geoFire = new GeoFire(workerAvailable);
+        geoQuery = geoFire.queryAtLocation(new GeoLocation(customerLocation.latitude, customerLocation.longitude), radius);
         geoQuery.removeAllListeners();
 
         geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
             public void onKeyEntered(String key, GeoLocation location) {
-                if (!workerFound){
+                if (!workerFound && requestBol){
                     workerFound = true;
                     workerFoundID = key;
 
@@ -145,12 +179,15 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
     }
 
     private Marker marker;
+    private DatabaseReference workerLocationRef;
+    private ValueEventListener workerLocationRefListener;
     private void getWorkerLocation(){
-        DatabaseReference workerLocationRef = FirebaseDatabase.getInstance().getReference().child("WorkersInWorking").child("Bike").child("Mechanic").child(workerFoundID).child("l");
-        workerLocationRef.addValueEventListener(new ValueEventListener() {
+
+        workerLocationRef = FirebaseDatabase.getInstance().getReference().child("WorkersInWorking").child("Bike").child("Mechanic").child(workerFoundID).child("l");
+        workerLocationRefListener = workerLocationRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {//This is called at every location change in seconds for the worker
-                if (dataSnapshot.exists()){
+                if (dataSnapshot.exists() && requestBol){
                     List<Object> map = (List<Object>) dataSnapshot.getValue();
                     double locationLat = 0;
                     double locationLng = 0;
@@ -168,6 +205,22 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
                     if (marker != null){
                         marker.remove();
                     }
+                    Location location1 = new Location("");
+                    location1.setLatitude(customerLocation.latitude);
+                    location1.setLongitude(customerLocation.longitude);
+
+                    Location location2 = new Location("");
+                    location2.setLatitude(workerLatLng.latitude);
+                    location2.setLongitude(workerLatLng.longitude);
+
+                    float distance = location1.distanceTo(location2) / 1000;
+
+                    if (distance < 100/1000){
+                        request.setText("Worker Arrived");
+                    }else {
+                        request.setText("Distance: " +String.valueOf(distance)+ "   km");
+                    }
+
                     marker = mMap.addMarker(new MarkerOptions().position(workerLatLng).title("Your Worker"));
                 }
             }

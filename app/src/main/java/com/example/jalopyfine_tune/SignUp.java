@@ -132,7 +132,7 @@ public class SignUp extends AppCompatActivity {
 
 
             if (confirmpassword.isEmpty()) {
-                et_confirmpwdSignup.setError("Enter conferm");
+                et_confirmpwdSignup.setError("Enter confirm");
                 valid = false;
             }
             else if (!confirmpassword.equals(password)){

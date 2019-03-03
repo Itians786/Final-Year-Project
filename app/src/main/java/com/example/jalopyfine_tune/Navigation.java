@@ -89,7 +89,8 @@ public class Navigation extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-            // Handle the camera action
+            Intent intent = new Intent(Navigation.this, userProfile.class);
+            startActivity(intent);
         } else if (id == R.id.nav_history) {
 
         } else if (id == R.id.nav_slideshow) {
