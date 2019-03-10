@@ -27,4 +27,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="ask_for_signup">Don\'t have an account yet?</string>
     <string name="title_activity_bike_mechanic">Map</string>
+    <string name="title_activity_bike_electrical">Map</string>
+    <string name="title_activity_bike_tyreflat">Map</string>
+    <string name="title_activity_bike_petrol">Map</string>
 </resources>

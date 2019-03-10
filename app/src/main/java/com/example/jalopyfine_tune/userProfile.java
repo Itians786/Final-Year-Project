@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -112,7 +111,13 @@ public class userProfile extends AppCompatActivity {
                     }
                     if (map.get("profileImageUrl") != null){
                         mProfileImageUrl = map.get("profileImageUrl").toString();
-                        Glide.with(getApplicationContext()).load(mProfileImageUrl);
+                        StorageReference filePath = FirebaseStorage.getInstance().getReference().child("profile_Images").child(userID);
+                        filePath.getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                            @Override
+                            public void onSuccess(byte[] bytes) {
+                            }
+                        });
+
                     }
 
                 }

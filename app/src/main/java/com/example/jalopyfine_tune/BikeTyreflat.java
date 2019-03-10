@@ -43,7 +43,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.List;
 
-public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback {
+public class BikeTyreflat extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
@@ -61,7 +61,7 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bike_mechanic);
+        setContentView(R.layout.activity_bike_tyreflat);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -75,20 +75,20 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
         request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    requestBol = true;
-                    String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                requestBol = true;
+                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("customerRequest");
-                    GeoFire geoFire = new GeoFire(ref);
-                    geoFire.setLocation(userId, new GeoLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("customerRequest");
+                GeoFire geoFire = new GeoFire(ref);
+                geoFire.setLocation(userId, new GeoLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
 
-                    customerLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-                    mMarker = mMap.addMarker(new MarkerOptions().position(customerLocation).title("I'm Here"));
+                customerLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+                mMarker = mMap.addMarker(new MarkerOptions().position(customerLocation).title("I'm Here"));
 
 
-                    request.setText("Getting free worker . . . .");
+                request.setText("Getting free worker . . . .");
 
-                    getClosestWorker();
+                getClosestWorker();
             }
 
         });
@@ -102,7 +102,7 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
                 marker.remove();
 
                 if (workerFoundID != null){
-                    DatabaseReference workerRef = FirebaseDatabase.getInstance().getReference().child("Workers").child("Bike").child("Mechanic").child(workerFoundID);
+                    DatabaseReference workerRef = FirebaseDatabase.getInstance().getReference().child("Workers").child("Bike").child("Tyre Flat").child(workerFoundID);
                     workerRef.setValue(true);
                     workerFoundID = null;
                 }
@@ -131,7 +131,7 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
 
     GeoQuery geoQuery;
     private void getClosestWorker() {
-        DatabaseReference workerAvailable = FirebaseDatabase.getInstance().getReference().child("workerAvailable").child("Bike").child("Mechanic");
+        DatabaseReference workerAvailable = FirebaseDatabase.getInstance().getReference().child("workerAvailable").child("Bike").child("Tyre Flat");
 
         GeoFire geoFire = new GeoFire(workerAvailable);
         geoQuery = geoFire.queryAtLocation(new GeoLocation(customerLocation.latitude, customerLocation.longitude), radius);
@@ -144,7 +144,7 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
                     workerFound = true;
                     workerFoundID = key;
 
-                    DatabaseReference workerRef = FirebaseDatabase.getInstance().getReference().child("Workers").child("Bike").child("Mechanic").child(workerFoundID);
+                    DatabaseReference workerRef = FirebaseDatabase.getInstance().getReference().child("Workers").child("Bike").child("Tyre Flat").child(workerFoundID);
                     String customerId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                     HashMap hashMap = new HashMap();
@@ -285,15 +285,15 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                ActivityCompat.requestPermissions(BikeMechanic.this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                                ActivityCompat.requestPermissions(BikeTyreflat.this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
                             }
                         })
                         .create();
-                        dialog.show();
-                        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+                dialog.show();
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
             }
             else {
-                ActivityCompat.requestPermissions(BikeMechanic.this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                ActivityCompat.requestPermissions(BikeTyreflat.this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             }
         }
     }
