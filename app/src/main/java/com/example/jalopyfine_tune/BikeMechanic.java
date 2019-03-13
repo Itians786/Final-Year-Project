@@ -6,8 +6,10 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
+import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -34,6 +36,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,6 +45,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static java.lang.Thread.sleep;
 
 public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback {
 
@@ -51,7 +57,7 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
     Location mLastLocation;
     LocationRequest mLocationRequest;
 
-    Button request,cancel_request;
+    Button request, cancel_request;
     private LatLng customerLocation;
 
     Boolean requestBol = false;
@@ -75,20 +81,19 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
         request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    requestBol = true;
-                    String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                requestBol = true;
+                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("customerRequest");
-                    GeoFire geoFire = new GeoFire(ref);
-                    geoFire.setLocation(userId, new GeoLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("customerRequest");
+                GeoFire geoFire = new GeoFire(ref);
+                geoFire.setLocation(userId, new GeoLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
 
-                    customerLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-                    mMarker = mMap.addMarker(new MarkerOptions().position(customerLocation).title("I'm Here"));
+                customerLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+                mMarker = mMap.addMarker(new MarkerOptions().position(customerLocation).title("I'm Here"));
 
+                request.setText("Getting free worker . . . .");
 
-                    request.setText("Getting free worker . . . .");
-
-                    getClosestWorker();
+                getClosestWorker();
             }
 
         });
@@ -97,11 +102,16 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View view) {
                 requestBol = false;
-                geoQuery.removeAllListeners();
-                workerLocationRef.removeEventListener(workerLocationRefListener);
-                marker.remove();
+                if (geoQuery != null) {
+                    geoQuery.removeAllListeners();
+                }
 
-                if (workerFoundID != null){
+                if (workerLocationRef != null) {
+                    workerLocationRef.removeEventListener(workerLocationRefListener);
+                    marker.remove();
+                }
+
+                if (workerFoundID != null) {
                     DatabaseReference workerRef = FirebaseDatabase.getInstance().getReference().child("Workers").child("Bike").child("Mechanic").child(workerFoundID);
                     workerRef.setValue(true);
                     workerFoundID = null;
@@ -116,7 +126,7 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
                 GeoFire geoFire = new GeoFire(ref);
                 geoFire.removeLocation(userId);
 
-                if (mMarker != null){
+                if (mMarker != null) {
                     mMarker.remove();
                 }
                 request.setText("Find Worker");
@@ -128,8 +138,8 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
     private int radius = 1;
     private boolean workerFound = false;
     private String workerFoundID;
-
     GeoQuery geoQuery;
+
     private void getClosestWorker() {
         DatabaseReference workerAvailable = FirebaseDatabase.getInstance().getReference().child("workerAvailable").child("Bike").child("Mechanic");
 
@@ -140,12 +150,12 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
         geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
             public void onKeyEntered(String key, GeoLocation location) {
-                if (!workerFound && requestBol){
+                if (!workerFound && requestBol) {
                     workerFound = true;
                     workerFoundID = key;
 
-                    DatabaseReference workerRef = FirebaseDatabase.getInstance().getReference().child("Workers").child("Bike").child("Mechanic").child(workerFoundID);
-                    String customerId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    final DatabaseReference workerRef = FirebaseDatabase.getInstance().getReference().child("Workers").child("Bike").child("Mechanic").child(workerFoundID);
+                    final String customerId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                     HashMap hashMap = new HashMap();
                     hashMap.put("CustomerStatusId", customerId);
@@ -153,25 +163,30 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
 
                     getWorkerLocation();
                     request.setText("Looking for available workers . . . .");
-
                 }
             }
 
             @Override
             public void onKeyExited(String key) {
-
             }
 
             @Override
             public void onKeyMoved(String key, GeoLocation location) {
-
             }
 
             @Override
             public void onGeoQueryReady() {
-                if (!workerFound){
-                    radius++;
-                    getClosestWorker();
+                if (!workerFound) {
+                    if (radius == 5) {
+                        request.setText("No workers available");
+                        requestBol = false;
+
+                        return;
+                    } else {
+
+                        radius++;
+                        getClosestWorker();
+                    }
                 }
             }
 
@@ -185,27 +200,28 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
     private Marker marker;
     private DatabaseReference workerLocationRef;
     private ValueEventListener workerLocationRefListener;
-    private void getWorkerLocation(){
+
+    private void getWorkerLocation() {
         workerLocationRef = FirebaseDatabase.getInstance().getReference().child("WorkersInWorking").child(workerFoundID).child("l");
         workerLocationRefListener = workerLocationRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {//This is called at every location change in seconds for the worker
-                if (dataSnapshot.exists() && requestBol){
+                if (dataSnapshot.exists()) {
                     List<Object> map = (List<Object>) dataSnapshot.getValue();
                     double locationLat = 0;
                     double locationLng = 0;
 
                     request.setText("Worker Found");
 
-                    if (map.get(0) != null){
+                    if (map.get(0) != null) {
                         locationLat = Double.parseDouble(map.get(0).toString());
                     }
-                    if (map.get(1) != null){
+                    if (map.get(1) != null) {
                         locationLng = Double.parseDouble(map.get(1).toString());
                     }
 
                     LatLng workerLatLng = new LatLng(locationLat, locationLng);
-                    if (marker != null){
+                    if (marker != null) {
                         marker.remove();
                     }
                     Location location1 = new Location("");
@@ -218,10 +234,10 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
 
                     float distance = location1.distanceTo(location2) / 1000;
 
-                    if (distance < 1/10){
+                    if (distance < 1 / 10) {
                         request.setText("Worker Arrived");
-                    }else {
-                        request.setText("Distance: " +String.valueOf(distance)+ "   km");
+                    } else {
+                        request.setText("Distance: " + String.valueOf(distance) + "   km");
                     }
 
                     marker = mMap.addMarker(new MarkerOptions().position(workerLatLng).title("Your Worker"));
@@ -235,9 +251,6 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-
-
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -247,12 +260,12 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
         mLocationRequest.setFastestInterval(1000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
                 mMap.setMyLocationEnabled(true);
                 mMap.getUiSettings().setZoomControlsEnabled(true);
-            }else {
+            } else {
                 checkLocationPermission();
             }
         }
@@ -260,10 +273,10 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
 
     //Permission Check
 
-    LocationCallback mLocationCallback = new LocationCallback(){
+    LocationCallback mLocationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
-            for (Location location : locationResult.getLocations()){
+            for (Location location : locationResult.getLocations()) {
                 mLastLocation = location;
 
                 LatLng latLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
@@ -277,23 +290,22 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
     };
 
     private void checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
                 AlertDialog dialog = new AlertDialog.Builder(this)
                         .setTitle("Need Permissions")
                         .setMessage("For Using this App you need to allow location access permission.")
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                ActivityCompat.requestPermissions(BikeMechanic.this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                                ActivityCompat.requestPermissions(BikeMechanic.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
                             }
                         })
                         .create();
-                        dialog.show();
-                        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-            }
-            else {
-                ActivityCompat.requestPermissions(BikeMechanic.this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                dialog.show();
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+            } else {
+                ActivityCompat.requestPermissions(BikeMechanic.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             }
         }
     }
@@ -302,15 +314,15 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        switch (requestCode){
-            case 1:{
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+        switch (requestCode) {
+            case 1: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                         mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
                         mMap.setMyLocationEnabled(true);
                         mMap.getUiSettings().setZoomControlsEnabled(true);
                     }
-                }else {
+                } else {
                     Toast.makeText(getApplicationContext(), "Please provide the permission", Toast.LENGTH_SHORT).show();
                     finish();
                 }

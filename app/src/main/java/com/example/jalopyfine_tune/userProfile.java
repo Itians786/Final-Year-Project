@@ -3,6 +3,7 @@ package com.example.jalopyfine_tune;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -115,6 +116,8 @@ public class userProfile extends AppCompatActivity {
                         filePath.getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                             @Override
                             public void onSuccess(byte[] bytes) {
+                                Bitmap bitmap = BitmapFactory.decodeByteArray( bytes, 0, bytes.length);
+                                prof_Img.setImageBitmap(Bitmap.createScaledBitmap(bitmap, prof_Img.getWidth(), prof_Img.getHeight(), false));
                             }
                         });
 
