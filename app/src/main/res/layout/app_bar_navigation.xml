@@ -27,13 +27,17 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabIndicatorColor="@color/common_google_signin_btn_text_dark_pressed">
+            app:tabIndicatorColor="#FD4A13"
+            app:tabIndicatorHeight="4dp"
+
+            >
 
             <android.support.design.widget.TabItem
                 android:id="@+id/tabItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                 />
+
+                />
 
             <android.support.design.widget.TabItem
                 android:id="@+id/tabItem2"
