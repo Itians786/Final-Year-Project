@@ -20,12 +20,14 @@ tools:context=".BikePetrol">
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="Employee Request"
+    android:background="@drawable/btn_request"
     android:layout_alignParentBottom="true"/>
 
 <Button
     android:id="@+id/cancel_request"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#ffffff"
     android:text="cancel request"/>
 
 </RelativeLayout>

@@ -19,13 +19,15 @@
             android:id="@+id/request"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/btn_request"
             android:text="Employee Request"
             android:layout_alignParentBottom="true"/>
 
         <Button
             android:id="@+id/cancel_request"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#ffffff"
             android:text="cancel request"/>
 
     </RelativeLayout>
