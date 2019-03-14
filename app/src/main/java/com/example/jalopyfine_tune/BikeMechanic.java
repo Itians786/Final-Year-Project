@@ -3,6 +3,8 @@ package com.example.jalopyfine_tune;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
@@ -17,6 +19,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.geofire.GeoFire;
@@ -35,6 +40,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -42,6 +48,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
 import java.util.List;
@@ -64,6 +72,12 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
 
     private Marker mMarker;
 
+    private LinearLayout workerInfo;
+
+    private ImageView workerProfileImg;
+
+    private TextView workerName, workerPhone;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +88,13 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        workerInfo = (LinearLayout) findViewById(R.id.workerInfo);
+
+        workerProfileImg = (ImageView) findViewById(R.id.workerProfileImg);
+
+        workerName = (TextView) findViewById(R.id.workerName);
+        workerPhone = (TextView) findViewById(R.id.workerPhone);
 
         request = findViewById(R.id.request);
         cancel_request = findViewById(R.id.cancel_request);
@@ -112,8 +133,8 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
                 }
 
                 if (workerFoundID != null) {
-                    DatabaseReference workerRef = FirebaseDatabase.getInstance().getReference().child("Workers").child("Bike").child("Mechanic").child(workerFoundID);
-                    workerRef.setValue(true);
+                    DatabaseReference workerRef = FirebaseDatabase.getInstance().getReference().child("Workers").child("Bike").child("Mechanic").child(workerFoundID).child("CustomerStatusId");
+                    workerRef.removeValue();
                     workerFoundID = null;
                 }
 
@@ -130,6 +151,9 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
                     mMarker.remove();
                 }
                 request.setText("Find Worker");
+                cancel_request.setVisibility(View.GONE);
+
+                workerInfo.setVisibility(View.GONE);
             }
         });
 
@@ -162,6 +186,7 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
                     workerRef.updateChildren(hashMap);
 
                     getWorkerLocation();
+                    getWorkerInfo();
                     request.setText("Looking for available workers . . . .");
                 }
             }
@@ -197,11 +222,49 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    private void getWorkerInfo(){
+        DatabaseReference mCustomerDatabase = FirebaseDatabase.getInstance().getReference().child("Workers").child("Bike").child("Mechanic").child(workerFoundID);
+        mCustomerDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()&& dataSnapshot.getChildrenCount() > 0){
+                    workerInfo.setVisibility(View.VISIBLE);
+
+                    Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                    if (map.get("name") != null){
+                        workerName.setText(map.get("name").toString());
+                    }
+                    if (map.get("phone") != null){
+                        workerPhone.setText(map.get("phone").toString());
+                    }
+                    if (map.get("profileImageUrl") != null){
+
+                        StorageReference filePath = FirebaseStorage.getInstance().getReference().child("worker_profile_Images").child(workerFoundID);
+                        filePath.getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                            @Override
+                            public void onSuccess(byte[] bytes) {
+                                Bitmap bitmap = BitmapFactory.decodeByteArray( bytes, 0, bytes.length);
+                                workerProfileImg.setImageBitmap(Bitmap.createScaledBitmap(bitmap, workerProfileImg.getWidth(), workerProfileImg.getHeight(), false));
+                            }
+                        });
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        });
+    }
+
+
     private Marker marker;
     private DatabaseReference workerLocationRef;
     private ValueEventListener workerLocationRefListener;
 
     private void getWorkerLocation() {
+        cancel_request.setVisibility(View.VISIBLE);
+
         workerLocationRef = FirebaseDatabase.getInstance().getReference().child("WorkersInWorking").child(workerFoundID).child("l");
         workerLocationRefListener = workerLocationRef.addValueEventListener(new ValueEventListener() {
             @Override
