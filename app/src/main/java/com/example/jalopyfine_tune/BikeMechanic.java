@@ -51,6 +51,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -345,9 +346,10 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
                 LatLng latLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
 
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                mMap.animateCamera(CameraUpdateFactory.zoomTo(16));
+                //mMap.animateCamera(CameraUpdateFactory.zoomTo(16));
 
-
+                if (!getWorkersAroundStarted)
+                    getWorkersAround();
             }
         }
     };
@@ -392,5 +394,63 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
                 break;
             }
         }
+    }
+
+    //Display all Bike Mechanics
+    boolean getWorkersAroundStarted = false;
+    List<Marker> markerList = new ArrayList<Marker>();
+    private void getWorkersAround(){
+        getWorkersAroundStarted = true;
+        DatabaseReference bikeMechanicLocation = FirebaseDatabase.getInstance().getReference().child("workerAvailable").child("Bike").child("Mechanic");
+
+        GeoFire geoFire = new GeoFire(bikeMechanicLocation);
+        GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude()), 15);
+        geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
+            @Override
+            public void onKeyEntered(String key, GeoLocation location) {
+                for (Marker markerIt : markerList){
+                    if (markerIt.getTag().equals(key)){
+                        return;
+                    }
+
+                    LatLng workerLocation = new LatLng(location.latitude, location.longitude);
+
+                    Marker mWorkerMarker = mMap.addMarker(new MarkerOptions().position(workerLocation).title(key));
+                    mWorkerMarker.setTag(key);
+
+                    markerList.add(mWorkerMarker);
+                }
+            }
+
+            @Override
+            public void onKeyExited(String key) {
+                for (Marker markerIt : markerList){
+                    if (markerIt.getTag().equals(key)){
+                        markerIt.remove();
+                        markerList.remove(markerIt);
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void onKeyMoved(String key, GeoLocation location) {
+                for (Marker markerIt : markerList){
+                    if (markerIt.getTag().equals(key)){
+                        markerIt.setPosition(new LatLng(location.latitude, location.longitude));
+                    }
+                }
+            }
+
+            @Override
+            public void onGeoQueryReady() {
+
+            }
+
+            @Override
+            public void onGeoQueryError(DatabaseError error) {
+
+            }
+        });
     }
 }
