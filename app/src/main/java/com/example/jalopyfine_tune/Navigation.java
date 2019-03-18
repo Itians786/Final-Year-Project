@@ -91,7 +91,8 @@ public class Navigation extends AppCompatActivity
             Intent intent = new Intent(Navigation.this, userProfile.class);
             startActivity(intent);
         } else if (id == R.id.nav_history) {
-
+            Intent intent = new Intent(Navigation.this, History.class);
+            startActivity(intent);
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
