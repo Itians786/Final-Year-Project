@@ -6,6 +6,13 @@
     android:padding="20sp">
 
     <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        android:text="time"/>
+
+    <TextView
         android:id="@+id/workId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -33,6 +33,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryViewHolders> {
     @Override
     public void onBindViewHolder(HistoryViewHolders holder, final int position) {
         holder.workId.setText(itemList.get(position).getWorkId());
+        holder.time.setText(itemList.get(position).getTime());
     }
     @Override
     public int getItemCount() {

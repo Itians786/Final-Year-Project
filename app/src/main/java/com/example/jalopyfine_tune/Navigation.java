@@ -92,6 +92,7 @@ public class Navigation extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_history) {
             Intent intent = new Intent(Navigation.this, History.class);
+            intent.putExtra("historyRequest", "Customers");
             startActivity(intent);
         } else if (id == R.id.nav_slideshow) {
 
