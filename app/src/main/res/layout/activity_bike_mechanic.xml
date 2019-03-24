@@ -72,7 +72,7 @@
             android:id="@+id/request"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Employee Request"
+            android:text="Find Worker"
             android:layout_alignParentBottom="true"/>
 
     </LinearLayout>

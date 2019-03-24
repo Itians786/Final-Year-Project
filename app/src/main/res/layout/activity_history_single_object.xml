@@ -27,13 +27,6 @@
             android:text="From - To" />
 
         <TextView
-            android:id="@+id/workDistance"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20sp"
-            android:text="Distance" />
-
-        <TextView
             android:id="@+id/workDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,14 +45,14 @@
             android:id="@+id/userImage"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/profile"/>
+            android:src="@drawable/profile" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/userName"
@@ -75,8 +68,21 @@
                 android:layout_marginBottom="20sp"
                 android:text="Phone Number" />
 
+
         </LinearLayout>
 
+
     </LinearLayout>
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:progressTint="#FFD600"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:numStars="5"
+        android:stepSize="1"
+        android:visibility="visible" />
 
 </LinearLayout>

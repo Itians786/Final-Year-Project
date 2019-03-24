@@ -2,6 +2,7 @@ package com.example.jalopyfine_tune;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,9 +19,11 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,10 +40,13 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -73,6 +79,8 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
 
     private Marker mMarker;
 
+    ArrayList<LatLng> listPoints;
+
     private LinearLayout workerInfo;
 
     private ImageView workerProfileImg;
@@ -97,8 +105,10 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
         workerName = (TextView) findViewById(R.id.workerName);
         workerPhone = (TextView) findViewById(R.id.workerPhone);
 
-        request = findViewById(R.id.request);
-        cancel_request = findViewById(R.id.cancel_request);
+        request = (Button) findViewById(R.id.request);
+        cancel_request = (Button) findViewById(R.id.cancel_request);
+
+        listPoints = new ArrayList<>();
 
         request.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,7 +187,6 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
 
                         return;
                     } else {
-
                         radius++;
                         getClosestWorker();
                     }
@@ -191,28 +200,28 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    private void getWorkerInfo(){
+    private void getWorkerInfo() {
         DatabaseReference mCustomerDatabase = FirebaseDatabase.getInstance().getReference().child("Workers").child("Bike").child("Mechanic").child(workerFoundID);
         mCustomerDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()&& dataSnapshot.getChildrenCount() > 0){
+                if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
                     workerInfo.setVisibility(View.VISIBLE);
 
                     Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
-                    if (map.get("name") != null){
+                    if (map.get("name") != null) {
                         workerName.setText(map.get("name").toString());
                     }
-                    if (map.get("phone") != null){
+                    if (map.get("phone") != null) {
                         workerPhone.setText(map.get("phone").toString());
                     }
-                    if (map.get("profileImageUrl") != null){
+                    if (map.get("profileImageUrl") != null) {
 
                         StorageReference filePath = FirebaseStorage.getInstance().getReference().child("worker_profile_Images").child(workerFoundID);
                         filePath.getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                             @Override
                             public void onSuccess(byte[] bytes) {
-                                Bitmap bitmap = BitmapFactory.decodeByteArray( bytes, 0, bytes.length);
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                                 workerProfileImg.setImageBitmap(Bitmap.createScaledBitmap(bitmap, workerProfileImg.getWidth(), workerProfileImg.getHeight(), false));
                             }
                         });
@@ -222,12 +231,14 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
         });
     }
 
     private DatabaseReference workHasEndedRef;
     private ValueEventListener workHasEndedRefListener;
+
     private void getHasWorkEnded() {
         workHasEndedRef = FirebaseDatabase.getInstance().getReference().child("Workers").child("Bike").child("Mechanic").child(workerFoundID).child("CustomerStatusId");
         workHasEndedRefListener = workHasEndedRef.addValueEventListener(new ValueEventListener() {
@@ -236,6 +247,7 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
                 if (dataSnapshot.exists()) {
 
                 } else {
+                    showRatingDialog();
                     endWork();
                 }
             }
@@ -246,7 +258,34 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-    private void endWork(){
+    private void showRatingDialog(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final RatingBar ratingBar = new RatingBar(this);
+
+        ratingBar.setNumStars(5);
+        ratingBar.setStepSize(1);
+        builder.setTitle("Rate this worker");
+        builder.setView(ratingBar);
+
+        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String rating = String.valueOf(ratingBar.getProgress());
+                        Intent intent = new Intent(BikeMechanic.this, HistorySingleObject.class);
+                        intent.putExtra("rating", rating);
+                        startActivity(intent);
+                        dialog.dismiss();
+                    }
+                }
+        );
+        builder.setCancelable(false);
+        AlertDialog popRating = builder.create();
+        popRating.setCanceledOnTouchOutside(false);
+        popRating.show();
+        popRating.getWindow().setLayout(750, ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
+
+    private void endWork() {
         requestBol = false;
         if (geoQuery != null) {
             geoQuery.removeAllListeners();
@@ -281,7 +320,6 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
 
         workerInfo.setVisibility(View.GONE);
     }
-
 
 
     private Marker marker;
@@ -340,6 +378,9 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+
+    Marker getWorkers;
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -353,6 +394,7 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
                 mMap.setMyLocationEnabled(true);
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(16));
                 mMap.getUiSettings().setZoomControlsEnabled(true);
             } else {
                 checkLocationPermission();
@@ -367,15 +409,6 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
         public void onLocationResult(LocationResult locationResult) {
             for (Location location : locationResult.getLocations()) {
                 mLastLocation = location;
-
-                LatLng latLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                mMap.animateCamera(CameraUpdateFactory.zoomTo(16));
-
-                if (!getWorkersAroundStarted){
-                    getWorkersAround();
-                }
             }
         }
     };
@@ -420,63 +453,5 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
                 break;
             }
         }
-    }
-
-    //Display all Bike Mechanics
-    boolean getWorkersAroundStarted = false;
-    List<Marker> markerList = new ArrayList<Marker>();
-    private void getWorkersAround(){
-        getWorkersAroundStarted =true;
-        DatabaseReference bikeMechanicLocation = FirebaseDatabase.getInstance().getReference().child("workerAvailable").child("Bike").child(("Mechanic"));
-
-        GeoFire geoFire = new GeoFire(bikeMechanicLocation);
-        GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude()), 20);
-        geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
-            @Override
-            public void onKeyEntered(String key, GeoLocation location) {
-                for (Marker markerIt : markerList){
-                    if (markerIt.getTag().equals(key)){
-                        return;
-                    }
-
-                    LatLng workerLocation = new LatLng(location.latitude, location.longitude);
-
-                    Marker mWorkerMarker = mMap.addMarker(new MarkerOptions().position(workerLocation).title(key));
-                    mWorkerMarker.setTag(key);
-
-                    markerList.add(mWorkerMarker);
-                }
-            }
-
-            @Override
-            public void onKeyExited(String key) {
-                for (Marker markerIt : markerList){
-                    if (markerIt.getTag().equals(key)){
-                        markerIt.remove();
-                        markerList.remove(markerIt);
-                        return;
-                    }
-                }
-            }
-
-            @Override
-            public void onKeyMoved(String key, GeoLocation location) {
-                for (Marker markerIt : markerList){
-                    if (markerIt.getTag().equals(key)){
-                        markerIt.setPosition(new LatLng(location.latitude, location.longitude));
-                    }
-                }
-            }
-
-            @Override
-            public void onGeoQueryReady() {
-
-            }
-
-            @Override
-            public void onGeoQueryError(DatabaseError error) {
-
-            }
-        });
     }
 }
