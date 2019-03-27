@@ -64,7 +64,7 @@ import java.util.Map;
 
 import static java.lang.Thread.sleep;
 
-public class BikeElectrical extends FragmentActivity implements OnMapReadyCallback {
+public class CarMechanic extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
@@ -158,7 +158,7 @@ public class BikeElectrical extends FragmentActivity implements OnMapReadyCallba
     GeoQuery geoQuery;
 
     private void getClosestWorker() {
-        DatabaseReference workerAvailable = FirebaseDatabase.getInstance().getReference().child("workerAvailable").child("Bike").child("Electrical");
+        DatabaseReference workerAvailable = FirebaseDatabase.getInstance().getReference().child("workerAvailable").child("Car").child("Mechanic");
 
         GeoFire geoFire = new GeoFire(workerAvailable);
         geoQuery = geoFire.queryAtLocation(new GeoLocation(customerLocation.latitude, customerLocation.longitude), radius);
@@ -171,7 +171,7 @@ public class BikeElectrical extends FragmentActivity implements OnMapReadyCallba
                     workerFound = true;
                     workerFoundID = key;
 
-                    final DatabaseReference workerRef = FirebaseDatabase.getInstance().getReference().child("Workers").child("Bike").child("Electrical").child(workerFoundID);
+                    final DatabaseReference workerRef = FirebaseDatabase.getInstance().getReference().child("Workers").child("Car").child("Mechanic").child(workerFoundID);
                     final String customerId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                     HashMap hashMap = new HashMap();
@@ -216,7 +216,7 @@ public class BikeElectrical extends FragmentActivity implements OnMapReadyCallba
     }
 
     private void getWorkerInfo() {
-        DatabaseReference mCustomerDatabase = FirebaseDatabase.getInstance().getReference().child("Workers").child("Bike").child("Electrical").child(workerFoundID);
+        DatabaseReference mCustomerDatabase = FirebaseDatabase.getInstance().getReference().child("Workers").child("Car").child("Mechanic").child(workerFoundID);
         mCustomerDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -266,7 +266,7 @@ public class BikeElectrical extends FragmentActivity implements OnMapReadyCallba
     private ValueEventListener workHasEndedRefListener;
 
     private void getHasWorkEnded() {
-        workHasEndedRef = FirebaseDatabase.getInstance().getReference().child("Workers").child("Bike").child("Electrical").child(workerFoundID).child("CustomerStatusId");
+        workHasEndedRef = FirebaseDatabase.getInstance().getReference().child("Workers").child("Car").child("Mechanic").child(workerFoundID).child("CustomerStatusId");
         workHasEndedRefListener = workHasEndedRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
@@ -318,7 +318,7 @@ public class BikeElectrical extends FragmentActivity implements OnMapReadyCallba
                 DatabaseReference historyWorkInfoDB = FirebaseDatabase.getInstance().getReference().child("history").child(workId);
                 historyWorkInfoDB.child("8rating").setValue(rating);
 
-                Intent intent = new Intent(BikeElectrical.this, HistorySingleObject.class);
+                Intent intent = new Intent(CarMechanic.this, HistorySingleObject.class);
                 intent.putExtra("workId", workId);
                 startActivity(intent);
 
@@ -340,7 +340,7 @@ public class BikeElectrical extends FragmentActivity implements OnMapReadyCallba
         }
 
         if (workerFoundID != null) {
-            DatabaseReference workerRef = FirebaseDatabase.getInstance().getReference().child("Workers").child("Bike").child("Electrical").child(workerFoundID).child("CustomerStatusId");
+            DatabaseReference workerRef = FirebaseDatabase.getInstance().getReference().child("Workers").child("Car").child("Mechanic").child(workerFoundID).child("CustomerStatusId");
             workerRef.removeValue();
             workerFoundID = null;
         }
@@ -461,14 +461,14 @@ public class BikeElectrical extends FragmentActivity implements OnMapReadyCallba
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                ActivityCompat.requestPermissions(BikeElectrical.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                                ActivityCompat.requestPermissions(CarMechanic.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
                             }
                         })
                         .create();
                 dialog.show();
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
             } else {
-                ActivityCompat.requestPermissions(BikeElectrical.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                ActivityCompat.requestPermissions(CarMechanic.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             }
         }
     }

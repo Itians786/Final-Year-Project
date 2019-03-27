@@ -20,7 +20,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HistorySingleObject"></activity>
+        <activity android:name=".CarWash"></activity>
+        <activity android:name=".CarPetrol" />
+        <activity android:name=".CarTyreFlat" />
+        <activity android:name=".CarElectrical" />
+        <activity android:name=".CarMechanic" />
+        <activity android:name=".HistorySingleObject" />
         <activity android:name=".History" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -38,7 +43,7 @@
             android:name=".BikePetrol"
             android:label="@string/title_activity_bike_petrol" />
         <activity
-            android:name=".BikeTyreflat"
+            android:name=".BikeTyreFlat"
             android:label="@string/title_activity_bike_tyreflat" />
         <activity
             android:name=".BikeElectrical"

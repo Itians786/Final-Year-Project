@@ -87,6 +87,13 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
 
     private TextView workerName, workerPhone;
 
+    private RatingBar mRatingBar;
+
+    //For rate the worker when Works Complete
+    private LinearLayout mRateWorkerLayout;
+    private TextView mRateWorkerTxt;
+    private RatingBar mRateWorker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +114,14 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
 
         request = (Button) findViewById(R.id.request);
         cancel_request = (Button) findViewById(R.id.cancel_request);
+
+        mRatingBar = (RatingBar) findViewById(R.id.ratingBar);
+
+        //For rate the worker when Works Complete
+        mRateWorkerLayout = (LinearLayout) findViewById(R.id.rateWorkerLayout);
+        mRateWorkerTxt = (TextView) findViewById(R.id.rateWorkerTxt);
+        mRateWorker = (RatingBar) findViewById(R.id.rateWorker);
+
 
         listPoints = new ArrayList<>();
 
@@ -226,6 +241,17 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
                             }
                         });
                     }
+                    int ratingSum = 0;
+                    float ratingTotal = 0;
+                    float ratingAvg = 0;
+                    for (DataSnapshot child : dataSnapshot.child("8rating").getChildren()) {
+                        ratingSum = ratingSum + Integer.valueOf(child.getValue().toString());
+                        ratingTotal++;
+                    }
+                    if (ratingTotal != 0) {
+                        ratingAvg = ratingSum / ratingTotal;
+                        mRatingBar.setRating(ratingAvg);
+                    }
 
                 }
             }
@@ -247,8 +273,32 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
                 if (dataSnapshot.exists()) {
 
                 } else {
-                    showRatingDialog();
-                    endWork();
+                    String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    DatabaseReference historyRef = FirebaseDatabase.getInstance().getReference().child("Customers").child(userId).child("history");
+                    historyRef.addChildEventListener(new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                            String key = dataSnapshot.getKey().toString();
+                            showRatingDialog(key);
+                            endWork();
+                        }
+
+                        @Override
+                        public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        }
+
+                        @Override
+                        public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                        }
+
+                        @Override
+                        public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
                 }
             }
 
@@ -258,31 +308,23 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-    private void showRatingDialog(){
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        final RatingBar ratingBar = new RatingBar(this);
+    private void showRatingDialog(final String key) {
+        mRateWorkerLayout.setVisibility(View.VISIBLE);
 
-        ratingBar.setNumStars(5);
-        ratingBar.setStepSize(1);
-        builder.setTitle("Rate this worker");
-        builder.setView(ratingBar);
+        final String workId = key;
+        mRateWorker.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean b) {
+                DatabaseReference historyWorkInfoDB = FirebaseDatabase.getInstance().getReference().child("history").child(workId);
+                historyWorkInfoDB.child("8rating").setValue(rating);
 
-        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String rating = String.valueOf(ratingBar.getProgress());
-                        Intent intent = new Intent(BikeMechanic.this, HistorySingleObject.class);
-                        intent.putExtra("rating", rating);
-                        startActivity(intent);
-                        dialog.dismiss();
-                    }
-                }
-        );
-        builder.setCancelable(false);
-        AlertDialog popRating = builder.create();
-        popRating.setCanceledOnTouchOutside(false);
-        popRating.show();
-        popRating.getWindow().setLayout(750, ViewGroup.LayoutParams.WRAP_CONTENT);
+                Intent intent = new Intent(BikeMechanic.this, HistorySingleObject.class);
+                intent.putExtra("workId", workId);
+                startActivity(intent);
+
+                mRateWorkerLayout.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void endWork() {
@@ -378,9 +420,6 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-
-    Marker getWorkers;
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -453,5 +492,17 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
                 break;
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (mRateWorkerLayout.getVisibility() == View.VISIBLE) {
+            mRateWorker.setFocusable(true);
+            mRateWorkerTxt.setError("");
+        } else {
+            super.onBackPressed();
+        }
+
     }
 }

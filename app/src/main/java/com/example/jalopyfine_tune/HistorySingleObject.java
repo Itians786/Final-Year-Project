@@ -56,8 +56,6 @@ public class HistorySingleObject extends AppCompatActivity implements OnMapReady
     private GoogleMap mMap;
     private SupportMapFragment mMapFragment;
 
-    String mRating;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,8 +77,6 @@ public class HistorySingleObject extends AppCompatActivity implements OnMapReady
 
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        mRating = getIntent().getStringExtra("rating");
-
         historyWorkInfoDB = FirebaseDatabase.getInstance().getReference().child("history").child(workId);
         getWorkInformation();
     }
@@ -99,23 +95,21 @@ public class HistorySingleObject extends AppCompatActivity implements OnMapReady
                         }
                         if (child.getKey().equals("3worker")){
                             workerId = child.getValue().toString();
-                            workCompleteRating(mRating);
                         }
                         if (child.getKey().equals("4customer")){
                             customerId = child.getValue().toString();
                             if (customerId.equals(currentUserId)){
-                                Toast.makeText(HistorySingleObject.this, type + service + workerId, Toast.LENGTH_SHORT).show();
                                 getUserInformation();
                                 displayRatingObject();
                             }
                         }
-                        if (child.getKey().equals("6timestamp")){
+                        if (child.getKey().equals("5timestamp")){
                             workDate.setText(getDate(Long.valueOf(child.getValue().toString())));
                         }
-                        if (child.getKey().equals("7destination")) {
+                        if (child.getKey().equals("6destination")) {
                             workLocation.setText(child.getValue().toString());
                         }
-                        if (child.getKey().equals("8location")) {
+                        if (child.getKey().equals("7location")) {
                             workLatLng = new LatLng(Double.valueOf(child.child("lat").getValue().toString()), Double.valueOf(child.child("lng").getValue().toString()));
                             if (workLatLng != new LatLng(0, 0)) {
                                 Marker marker = mMap.addMarker(new MarkerOptions().position(workLatLng));
@@ -123,7 +117,7 @@ public class HistorySingleObject extends AppCompatActivity implements OnMapReady
                                 mMap.animateCamera(CameraUpdateFactory.zoomTo(16));
                             }
                         }
-                        if (child.getKey().equals("9rating")){
+                        if (child.getKey().equals("8rating")){
                             mRatingBar.setRating(Integer.valueOf(child.getValue().toString()));
                         }
                     }
@@ -136,18 +130,12 @@ public class HistorySingleObject extends AppCompatActivity implements OnMapReady
         });
     }
 
-    private void workCompleteRating(String rating){
-        historyWorkInfoDB.child("9rating").setValue(rating);
-        DatabaseReference mWorkerRatingDB = FirebaseDatabase.getInstance().getReference().child("Workers").child(type).child(service).child(workerId).child("rating");
-        mWorkerRatingDB.child(workId).setValue(rating);
-    }
-
     private void displayRatingObject() {
         mRatingBar.setVisibility(View.VISIBLE);
         mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean b) {
-                historyWorkInfoDB.child("9rating").setValue(rating);
+                historyWorkInfoDB.child("8rating").setValue(rating);
                 DatabaseReference mWorkerRatingDB = FirebaseDatabase.getInstance().getReference().child("Workers").child(type).child(service).child(workerId).child("rating");
                 mWorkerRatingDB.child(workId).setValue(rating);
             }
