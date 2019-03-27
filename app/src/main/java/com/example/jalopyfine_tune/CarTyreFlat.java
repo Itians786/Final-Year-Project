@@ -97,7 +97,7 @@ public class CarTyreFlat extends FragmentActivity implements OnMapReadyCallback 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bike_electrical);
+        setContentView(R.layout.activity_car_tyre_flat);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 

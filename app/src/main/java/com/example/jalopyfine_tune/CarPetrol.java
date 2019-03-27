@@ -97,7 +97,7 @@ public class CarPetrol extends FragmentActivity implements OnMapReadyCallback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bike_electrical);
+        setContentView(R.layout.activity_car_petrol);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
