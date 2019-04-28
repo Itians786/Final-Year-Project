@@ -13,9 +13,6 @@ public class tabpagerAdapter extends FragmentStatePagerAdapter {
         super(fm);
     }
 
-
-
-
     @Override
     public Fragment getItem(int position) {
 
@@ -35,12 +32,10 @@ public class tabpagerAdapter extends FragmentStatePagerAdapter {
                 return null;
         }
 
-
     }
 
     @Override
     public int getCount() {
-
         return tabnumber;
     }
 
