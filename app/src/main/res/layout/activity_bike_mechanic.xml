@@ -49,8 +49,6 @@
             android:stepSize="1"
             android:background="#E8EAF6" />
 
-
-
     </LinearLayout>
 
     <LinearLayout

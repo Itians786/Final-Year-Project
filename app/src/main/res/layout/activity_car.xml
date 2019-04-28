@@ -4,111 +4,131 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:background="@drawable/signin"
-android:paddingTop="@dimen/activity_vertical_margin"
-android:paddingBottom="@dimen/activity_vertical_margin"
-android:paddingLeft="@dimen/activity_horizontal_margin"
-android:paddingRight="@dimen/activity_horizontal_margin"
+    android:padding="12dp"
 xmlns:android="http://schemas.android.com/apk/res/android">
-<RelativeLayout
+
+<LinearLayout
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-
+    android:padding="30dp"
+    android:orientation="vertical"
     >
 
-    <TextView
-        android:id="@+id/section_label"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CAR SERVICES"
-        android:textColor="#4358CE"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"
-        android:textSize="30dp"
-        />
+        android:layout_gravity="center"
+        android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/section_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CAR SERVICES"
+            android:textColor="#4358CE"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:textSize="30dp"
+            />
 
-    <Button
-        android:id="@+id/Car_m"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        android:layout_marginTop="70dp"
-        android:textColor="#ffffff"
-        android:background="@drawable/btn_mechanics"
-        android:drawableTop="@drawable/icon_mechanics"
-        android:text="Mechanics"
-        android:drawablePadding="-12dip"
-        android:paddingTop="30dip"
-        android:textSize="20sp"
-        android:layout_marginLeft="20dp"
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        />
+        <Button
+            android:id="@+id/Car_m"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/btn_mechanics"
+            android:drawableTop="@drawable/icon_mechanics"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text="Mechanics"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            />
 
-    <Button
-        android:id="@+id/Car_e"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        android:layout_marginTop="70dp"
-        android:layout_toRightOf="@+id/Car_m"
-        android:text="Electrical"
-        android:background="@drawable/btn_electrican"
-        android:drawableTop="@drawable/icon_battery"
-        android:drawablePadding="-12dip"
-        android:paddingTop="30dip"
-        android:textSize="20sp"
-        android:layout_marginLeft="10dp"
-        android:textColor="#ffffff"
-        />
+        <Button
+            android:id="@+id/Car_e"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="30dp"
+            android:layout_toRightOf="@+id/Car_m"
+            android:background="@drawable/btn_electrican"
+            android:drawableTop="@drawable/icon_battery"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text="Electrical"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:layout_marginLeft="20dp"
+            />
 
-    <Button
-        android:id="@+id/Car_t"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        android:layout_marginTop="290dp"
-        android:text="Tyre Flat"
-        android:background="@drawable/btn_tyre"
-        android:drawableTop="@drawable/icon_tyre"
-        android:drawablePadding="-12dip"
-        android:paddingTop="12dip"
-        android:textSize="20sp"
-        android:textColor="#ffffff"
-        android:layout_marginLeft="20dp"
-        />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/Car_p"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        android:layout_marginTop="290dp"
-        android:layout_toRightOf="@+id/Car_m"
-        android:text="Petrol"
-        android:background="@drawable/btn_petrol"
-        android:drawableTop="@drawable/icon_petrol"
-        android:drawablePadding="-12dip"
-        android:paddingTop="30dip"
-        android:textSize="20sp"
-        android:textColor="#ffffff"
-        android:layout_marginLeft="10dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        />
+        <Button
+            android:id="@+id/Car_t"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_tyre"
+            android:drawableTop="@drawable/icon_tyre"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text="Tyre Flat"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            />
 
-    <Button
-        android:id="@+id/Car_w"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        android:layout_marginTop="508dp"
-        android:text="car Wash"
-        android:background="@drawable/btn_carwash"
-        android:drawableTop="@drawable/icon_carwash"
-        android:drawablePadding="-42dip"
-        android:paddingTop="25dip"
-        android:textSize="20sp"
-        android:textColor="#ffffff"
-        android:layout_marginLeft="20dp"
-        />
+        <Button
+            android:id="@+id/Car_p"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_petrol"
+            android:drawableTop="@drawable/icon_petrol"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text="Petrol"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:layout_marginLeft="20dp"
+            />
 
+    </LinearLayout>
 
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="30dp">
+
+        <Button
+            android:id="@+id/Car_w"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_carwash"
+            android:drawableTop="@drawable/icon_carwash"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text="car Wash"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
+
 </ScrollView>
