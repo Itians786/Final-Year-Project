@@ -35,6 +35,7 @@ public class Navigation extends AppCompatActivity
 
         tabpagerAdapter Tabpageradapter=new tabpagerAdapter(getSupportFragmentManager());
         Pager.setAdapter(Tabpageradapter);
+
          tabLayout.setupWithViewPager(Pager);
         tabLayout.getTabAt(0).setIcon(R.drawable.tab_bike);
 
