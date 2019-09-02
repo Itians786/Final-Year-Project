@@ -32,26 +32,26 @@ public class SignIn extends AppCompatActivity {
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
-    EditText email_signin, password_signin;
-    Button signinbtn,signupbtn;
+    EditText et_email, et_password;
+    Button btn_signIn,btn_signUp;
 
-    FirebaseAuth mmAuth;
-    FirebaseAuth.AuthStateListener firebaseAuthListener;
+    FirebaseAuth mAuth;
+    FirebaseAuth.AuthStateListener fireBaseAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        email_signin = findViewById(R.id.Email_Signin);
-        password_signin = findViewById(R.id.Password_Signin);
-        signinbtn = findViewById(R.id.SignInbtn);
-        signupbtn=findViewById(R.id.SignUpbtn);
+        et_email = findViewById(R.id.Email_Signin);
+        et_password = findViewById(R.id.Password_Signin);
+        btn_signIn = findViewById(R.id.SignInbtn);
+        btn_signUp=findViewById(R.id.SignUpbtn);
         FirebaseApp.initializeApp(this);
 
-        mmAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
-        signupbtn.setOnClickListener(new View.OnClickListener() {
+        btn_signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i=new Intent(SignIn.this,SignUp.class);
@@ -60,7 +60,8 @@ public class SignIn extends AppCompatActivity {
             }
         });
 
-        firebaseAuthListener = new FirebaseAuth.AuthStateListener() {
+        //AuthListener to check user is already logged in or not
+        fireBaseAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -74,17 +75,18 @@ public class SignIn extends AppCompatActivity {
             }
         };
 
-        signinbtn.setOnClickListener(new View.OnClickListener() {
+        btn_signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String email = email_signin.getText().toString();
-                final String password = password_signin.getText().toString();
+                final String email = et_email.getText().toString();
+                final String password = et_password.getText().toString();
                 if(email.isEmpty()||password.isEmpty()){
                     Toast.makeText(SignIn.this, "Enter Correct Email or Password", Toast.LENGTH_SHORT).show();
                 }
 
                 else {
-                mmAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(SignIn.this, new OnCompleteListener<AuthResult>() {
+                    //Authentication method for Login
+                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(SignIn.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
@@ -106,12 +108,12 @@ public class SignIn extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mmAuth.addAuthStateListener(firebaseAuthListener);
+        mAuth.addAuthStateListener(fireBaseAuthListener);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mmAuth.removeAuthStateListener(firebaseAuthListener);
+        mAuth.removeAuthStateListener(fireBaseAuthListener);
     }
 }

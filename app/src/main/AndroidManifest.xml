@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.jalopyfine_tune">
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the 'MyLocation' functionality.
     -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -20,13 +23,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CarWash"></activity>
-        <activity android:name=".CarPetrol" />
-        <activity android:name=".CarTyreFlat" />
-        <activity android:name=".CarElectrical" />
-        <activity android:name=".CarMechanic" />
-        <activity android:name=".HistorySingleObject" />
-        <activity android:name=".History" />
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -39,6 +36,13 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity android:name=".CarWash" />
+        <activity android:name=".CarPetrol" />
+        <activity android:name=".CarTyreFlat" />
+        <activity android:name=".CarElectrical" />
+        <activity android:name=".CarMechanic" />
+        <activity android:name=".HistorySingleObject" />
+        <activity android:name=".History" />
         <activity
             android:name=".BikePetrol"
             android:label="@string/title_activity_bike_petrol" />
