@@ -30,4 +30,5 @@
     <string name="title_activity_bike_electrical">Map</string>
     <string name="title_activity_bike_tyreflat">Map</string>
     <string name="title_activity_bike_petrol">Map</string>
+    <string name="title_activity_maps_activityas">Map</string>
 </resources>

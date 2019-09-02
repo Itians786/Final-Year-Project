@@ -129,13 +129,13 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View view) {
                 requestBol = true;
-                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();   //Current User
 
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("customerRequest");
-                GeoFire geoFire = new GeoFire(ref);
-                geoFire.setLocation(userId, new GeoLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
+                GeoFire geoFire = new GeoFire(ref);    //Geo Fire is a class to find current location
+                geoFire.setLocation(userId, new GeoLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude()));   //update customer location
 
-                customerLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+                customerLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()); //Fetching customer updated location
                 mMarker = mMap.addMarker(new MarkerOptions().position(customerLocation).title("I'm Here"));
 
                 getClosestWorker();
@@ -174,7 +174,7 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
                     final DatabaseReference workerRef = FirebaseDatabase.getInstance().getReference().child("Workers").child("Bike").child("Mechanic").child(workerFoundID);
                     final String customerId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                    HashMap hashMap = new HashMap();
+                    HashMap hashMap = new HashMap();   // used to enter and update values in Database
                     hashMap.put("CustomerStatusId", customerId);
                     workerRef.updateChildren(hashMap);
 
@@ -216,8 +216,8 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void getWorkerInfo() {
-        DatabaseReference mCustomerDatabase = FirebaseDatabase.getInstance().getReference().child("Workers").child("Bike").child("Mechanic").child(workerFoundID);
-        mCustomerDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference mWorkerDatabase = FirebaseDatabase.getInstance().getReference().child("Workers").child("Bike").child("Mechanic").child(workerFoundID);
+        mWorkerDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
@@ -443,7 +443,7 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
 
     //Permission Check
 
-    LocationCallback mLocationCallback = new LocationCallback() {
+    LocationCallback mLocationCallback = new LocationCallback() {  // Used to find last location of current user
         @Override
         public void onLocationResult(LocationResult locationResult) {
             for (Location location : locationResult.getLocations()) {

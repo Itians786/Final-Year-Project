@@ -26,8 +26,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Bike Services"
+                android:gravity="center"
                 android:textAllCaps="true"
-                android:textColor="#4358CE"
+                android:textColor="#FFF"
                 android:layout_marginTop="20dp"
                 android:layout_centerHorizontal="true"
                 android:textSize="30dp"
@@ -52,8 +53,7 @@
                 android:paddingBottom="20dp"
                 android:text="Mechanics"
                 android:textColor="#ffffff"
-                android:textSize="18sp"
-                />
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/Bike_e"

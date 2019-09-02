@@ -55,6 +55,8 @@ xmlns:android="http://schemas.android.com/apk/res/android">
 
         <Button
             android:id="@+id/Car_e"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginTop="30dp"
@@ -78,6 +80,8 @@ xmlns:android="http://schemas.android.com/apk/res/android">
 
         <Button
             android:id="@+id/Car_t"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginTop="20dp"
@@ -92,6 +96,8 @@ xmlns:android="http://schemas.android.com/apk/res/android">
 
         <Button
             android:id="@+id/Car_p"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginTop="20dp"
