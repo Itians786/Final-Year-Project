@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<ScrollView
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/signup"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/signin"
@@ -12,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="90dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
         android:layout_marginBottom="40dp"
@@ -41,7 +48,7 @@
             android:background="@drawable/edit_round"
             android:drawableLeft="@drawable/ic_lock_black_24dp"
             android:drawablePadding="2dip"
-            android:paddingLeft="5dip"
+            android:paddingLeft="5dp"
             android:hint="Password"
             android:inputType="textPassword"
             android:textColor="@color/common_google_signin_btn_text_dark_default"
@@ -79,8 +86,8 @@
     <LinearLayout
 
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="610dp"
         android:orientation="vertical">
 
         <View
@@ -113,3 +120,4 @@
     </LinearLayout>
 
 </RelativeLayout>
+</ScrollView>

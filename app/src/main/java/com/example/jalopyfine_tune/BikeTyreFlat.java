@@ -64,7 +64,7 @@ import java.util.Map;
 
 import static java.lang.Thread.sleep;
 
-public class BikeTyreFlat extends FragmentActivity implements OnMapReadyCallback {
+class BikeTyreFlat extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 

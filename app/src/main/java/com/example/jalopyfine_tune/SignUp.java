@@ -25,8 +25,7 @@ public class SignUp extends AppCompatActivity {
 
     private EditText  et_phoneSignup, et_nameSingup, et_emailSignup, et_passwordSignup, et_confirmpwdSignup;
     private  String   phone, name, email,password , confirmpassword;
-    Button signupbtn2;
-
+    Button signupbtn2,sign_in;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
 
@@ -41,6 +40,7 @@ public class SignUp extends AppCompatActivity {
         et_passwordSignup = findViewById(R.id.Password_SignUp);
         et_confirmpwdSignup = findViewById(R.id.Confirm_Password);
         signupbtn2 = findViewById(R.id.SignUpbtn2);
+        sign_in=findViewById(R.id.Sign);
 
         FirebaseApp.initializeApp(this);
 
@@ -59,7 +59,13 @@ public class SignUp extends AppCompatActivity {
             }
         };
 
-
+        sign_in.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent inte1=new Intent(SignUp.this,SignIn.class);
+                startActivity(inte1);
+            }
+        });
        signupbtn2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -121,7 +127,7 @@ public class SignUp extends AppCompatActivity {
 
             else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches())
             {
-                et_emailSignup.setError("please enter valid te email adress");
+                et_emailSignup.setError("please enter valid e-email adress");
                 valid = false;
             }
 

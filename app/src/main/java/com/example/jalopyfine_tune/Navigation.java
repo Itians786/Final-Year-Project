@@ -38,7 +38,6 @@ public class Navigation extends AppCompatActivity
 
          tabLayout.setupWithViewPager(Pager);
         tabLayout.getTabAt(0).setIcon(R.drawable.tab_bike);
-
         tabLayout.getTabAt(1).setIcon(R.drawable.tab_car);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -91,17 +90,23 @@ public class Navigation extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-            Intent intent = new Intent(Navigation.this, userProfile.class);
+            Intent intent = new Intent(Navigation.this,userProfile.class);
             startActivity(intent);
         } else if (id == R.id.nav_history) {
             Intent intent = new Intent(Navigation.this, History.class);
             intent.putExtra("historyRequest", "Customers");
             startActivity(intent);
-        } else if (id == R.id.nav_slideshow) {
+        }
 
-        } else if (id == R.id.nav_manage) {
+         else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT,
+                    "Hey check out my app at: https://play.google.com/store/apps/details?id=com.google.android.apps.plus");
+            sendIntent.setType("text/plain");
+            startActivity(sendIntent);
 
         } else if (id == R.id.nav_logout) {
 

@@ -63,8 +63,7 @@ public class userProfile extends AppCompatActivity {
         et_name = (EditText) findViewById(R.id.name);
         et_phone = (EditText) findViewById(R.id.phone);
 
-        btn_confirm = (Button) findViewById(R.id.confirm);
-        btn_back = (Button) findViewById(R.id.back);
+
 
         mAuth = FirebaseAuth.getInstance();
         userID = mAuth.getCurrentUser().getUid();
