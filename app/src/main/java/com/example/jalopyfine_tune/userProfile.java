@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -38,18 +39,12 @@ public class userProfile extends AppCompatActivity {
 
     private ImageView prof_Img;
 
-    private EditText et_name, et_phone;
-
-    private Button btn_confirm, btn_back;
-
+    private TextView et_name, et_phone;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mCustomerDatabase;
 
-    private String userID;
-    private String mName;
-    private String mPhone;
-    private String mProfileImageUrl;
+    private String userID, mName, mPhone, mProfileImageUrl;
 
     private Uri resultUri;
 
@@ -60,8 +55,8 @@ public class userProfile extends AppCompatActivity {
 
         prof_Img = (ImageView) findViewById(R.id.profileImage);
 
-        et_name = (EditText) findViewById(R.id.name);
-        et_phone = (EditText) findViewById(R.id.phone);
+        et_name = (TextView) findViewById(R.id.name);
+        et_phone = (TextView) findViewById(R.id.phone);
 
 
 
@@ -70,30 +65,6 @@ public class userProfile extends AppCompatActivity {
         mCustomerDatabase = FirebaseDatabase.getInstance().getReference().child("Customers").child(userID);
 
         getUserInfo();
-
-        prof_Img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("image/*");
-                startActivityForResult(intent, 1);
-            }
-        });
-
-        btn_confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveUserInformation();
-            }
-        });
-
-        btn_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-                return;
-            }
-        });
     }
 
     private void getUserInfo(){

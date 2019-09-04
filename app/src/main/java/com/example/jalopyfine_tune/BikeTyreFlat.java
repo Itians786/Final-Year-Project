@@ -64,7 +64,7 @@ import java.util.Map;
 
 import static java.lang.Thread.sleep;
 
-class BikeTyreFlat extends FragmentActivity implements OnMapReadyCallback {
+public class BikeTyreFlat extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
@@ -97,7 +97,7 @@ class BikeTyreFlat extends FragmentActivity implements OnMapReadyCallback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bike_tyreflat);
+        setContentView(R.layout.activity_bike_tyre_flat);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -131,7 +131,7 @@ class BikeTyreFlat extends FragmentActivity implements OnMapReadyCallback {
                 requestBol = true;
                 String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("customerRequest");
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("customerRequest").child("Bike").child("Tyre Flat");
                 GeoFire geoFire = new GeoFire(ref);
                 geoFire.setLocation(userId, new GeoLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
 
@@ -350,7 +350,7 @@ class BikeTyreFlat extends FragmentActivity implements OnMapReadyCallback {
 
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("customerRequest");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("customerRequest").child("Bike").child("Tyre Flat");
         GeoFire geoFire = new GeoFire(ref);
         geoFire.removeLocation(userId);
 

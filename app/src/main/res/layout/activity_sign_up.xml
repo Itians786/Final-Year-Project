@@ -159,17 +159,17 @@
                 android:gravity="center"
                 android:layout_marginLeft="14dp"
                 />
+
             <Button
-                android:id="@+id/Sign"
+                android:id="@+id/signIn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
+                android:gravity="center"
                 android:text="SIGN IN"
                 android:textAllCaps="false"
-                android:textSize="15sp"
                 android:textColor="#2196F3"
-                android:gravity="center"
-                />
+                android:textSize="15sp" />
 
 
 

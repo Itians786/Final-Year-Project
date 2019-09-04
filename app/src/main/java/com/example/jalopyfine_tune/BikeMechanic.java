@@ -131,7 +131,7 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
                 requestBol = true;
                 String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();   //Current User
 
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("customerRequest");
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("customerRequest").child("Bike").child("Mechanic");
                 GeoFire geoFire = new GeoFire(ref);    //Geo Fire is a class to find current location
                 geoFire.setLocation(userId, new GeoLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude()));   //update customer location
 
@@ -350,7 +350,7 @@ public class BikeMechanic extends FragmentActivity implements OnMapReadyCallback
 
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("customerRequest");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("customerRequest").child("Bike").child("Mechanic");
         GeoFire geoFire = new GeoFire(ref);
         geoFire.removeLocation(userId);
 

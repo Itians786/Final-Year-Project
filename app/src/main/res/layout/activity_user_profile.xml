@@ -6,16 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".userProfile"
     android:orientation="vertical"
-    android:background="@drawable/profil">
+    android:padding="40dp"
+    android:background="#7792B6">
 
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="300sp"
-    android:paddingHorizontal="40dp"
-    android:paddingVertical="50dp"
-    android:background="#43C768"
-    >
+
     <ImageView
         android:id="@+id/profileImage"
         android:layout_width="200dp"
@@ -23,7 +18,7 @@
         android:src="@drawable/profile"
         android:background="@drawable/textedit"
         />
-</LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

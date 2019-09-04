@@ -131,7 +131,7 @@ public class BikeElectrical extends FragmentActivity implements OnMapReadyCallba
                 requestBol = true;
                 String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("customerRequest");
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("customerRequest").child("Bike").child("Electrical");
                 GeoFire geoFire = new GeoFire(ref);
                 geoFire.setLocation(userId, new GeoLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
 
@@ -350,7 +350,7 @@ public class BikeElectrical extends FragmentActivity implements OnMapReadyCallba
 
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("customerRequest");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("customerRequest").child("Bike").child("Electrical");
         GeoFire geoFire = new GeoFire(ref);
         geoFire.removeLocation(userId);
 
