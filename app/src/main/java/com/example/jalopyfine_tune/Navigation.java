@@ -99,6 +99,7 @@ public class Navigation extends AppCompatActivity
         }
 
          else if (id == R.id.nav_manage) {
+             Intent  setting=new Intent(Navigation.this,settings.class);
 
         } else if (id == R.id.nav_share) {
             Intent sendIntent = new Intent();
