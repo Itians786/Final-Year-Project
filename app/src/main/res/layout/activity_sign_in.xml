@@ -55,12 +55,13 @@
             android:textColorHint="#ffffff"
             android:textSize="20dp" />
 
-        <TextView
+        <Button
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text="Forget Password?"
+            android:background="@android:color/transparent"
             android:textColor="#E2E2F1"
             android:textSize="20dp"
 
@@ -87,7 +88,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="610dp"
+        android:layout_marginTop="550dp"
         android:orientation="vertical">
 
         <View
