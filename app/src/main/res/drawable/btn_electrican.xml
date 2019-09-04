@@ -3,7 +3,7 @@
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
 
     xmlns:tools="http://schemas.android.com/tools"
-    android:color="#DBD6B4"
+    android:color="#ADAA9A"
     tools:targetApi="lollipop">
     <item>
 
