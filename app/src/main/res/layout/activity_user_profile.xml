@@ -6,11 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".userProfile"
     android:orientation="vertical"
+
+    android:background="@drawable/profil">
+
+
+<LinearLayout
+    android:layout_width="410sp"
+    android:layout_height="280sp"
+    android:background="#2EAA51"
     android:padding="40dp"
-    android:background="#7792B6">
-
-
-
+    >
     <ImageView
         android:id="@+id/profileImage"
         android:layout_width="200dp"
@@ -18,7 +23,7 @@
         android:src="@drawable/profile"
         android:background="@drawable/textedit"
         />
-
+</LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,7 +42,7 @@
         android:paddingLeft="20dp"
         android:textSize="25dp"
         android:background="@drawable/textedit"
-        android:textColor="#ffff"
+        android:textColor="#947F7F"
         />
 
     <TextView
@@ -50,7 +55,7 @@
         android:textSize="25dp"
         android:background="@drawable/textedit"
         android:layout_marginTop="15dp"
-        android:textColor="#ffff"
+        android:textColor="#947F7F"
 
         />
 
@@ -63,7 +68,7 @@
         android:textSize="25dp"
         android:background="@drawable/textedit"
         android:layout_marginTop="15dp"
-        android:textColor="#ffff"
+        android:textColor="#947F7F"
         />
 
 
