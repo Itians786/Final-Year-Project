@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,7 +24,12 @@ import java.util.concurrent.TimeUnit;
 
 public class PhoneSignIn extends AppCompatActivity {
 
+    TextView textView_email, textView_phone;
+
+    LinearLayout emailLayout, phoneLayout;
+
     EditText phoneNumber, verificationCode;
+
     Button requestCode, mLogin;
 
     FirebaseAuth mAuth;
@@ -36,10 +43,34 @@ public class PhoneSignIn extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+        textView_email = (TextView) findViewById(R.id.withEmail);
+        textView_phone = (TextView) findViewById(R.id.withPhone);
+
+        emailLayout = (LinearLayout) findViewById(R.id.layout_email);
+        phoneLayout = (LinearLayout) findViewById(R.id.layout_phone);
+
         phoneNumber = findViewById(R.id.phone_number);
         verificationCode = findViewById(R.id.code);
         requestCode = findViewById(R.id.request_code);
         mLogin = findViewById(R.id.login);
+
+        textView_email.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                emailLayout.setVisibility(View.VISIBLE);
+                phoneLayout.setVisibility(View.GONE);
+
+
+            }
+        });
+
+        textView_phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                phoneLayout.setVisibility(View.VISIBLE);
+                emailLayout.setVisibility(View.GONE);
+            }
+        });
 
         requestCode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +85,6 @@ public class PhoneSignIn extends AppCompatActivity {
                 verifyCode();
             }
         });
-
     }
 
     private void verifyCode() {
@@ -70,7 +100,7 @@ public class PhoneSignIn extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Intent intent = new Intent(PhoneSignIn.this, MainActivity.class);
+                            Intent intent = new Intent(PhoneSignIn.this, Navigation.class);
                             startActivity(intent);
                             finish();
                         } else {

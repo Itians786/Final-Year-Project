@@ -90,7 +90,7 @@ public class Navigation extends AppCompatActivity
 
             FirebaseAuth.getInstance().signOut();
 
-            Intent intent = new Intent(Navigation.this, SignIn.class);
+            Intent intent = new Intent(Navigation.this, PhoneSignIn.class);
             startActivity(intent);
 
             finish();

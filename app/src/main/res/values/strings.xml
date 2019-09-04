@@ -32,4 +32,7 @@
     <string name="title_activity_bike_petrol">Map</string>
     <string name="title_activity_maps_activityas">Map</string>
     <string name="title_activity_bike_tyre_flat">Map</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
