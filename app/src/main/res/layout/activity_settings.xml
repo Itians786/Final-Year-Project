@@ -3,7 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ECEBEB">
+    android:background="#EEEEEE"
+    android:orientation="vertical"
+    >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,6 +21,7 @@
             android:textSize="20dp"
             android:drawableLeft="@drawable/user"
             android:textColor="#AFA4A4"
+            android:drawablePadding="4dp"
             />
 
 
@@ -38,15 +41,13 @@
 
         <Button
 
-            android:layout_marginTop="15dp"
             android:id="@+id/edit_n"
             android:layout_width="wrap_content"
-            android:layout_height="32dp"
+            android:layout_height="27dp"
             android:layout_marginLeft="320dp"
-
+            android:layout_marginTop="15dp"
             android:background="#fff"
             android:drawableRight="@drawable/ic_chevron_right_black_24dp"
-            android:textAllCaps="false"
             android:textSize="18dp" />
 
         <View
@@ -55,12 +56,14 @@
             android:layout_height="1dp"
             android:layout_marginTop="55dp"
             android:background="#666464"
+            android:layout_marginLeft="45dp"
             />
 
 
 
 
         <TextView
+            android:drawablePadding="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Mobile"
@@ -103,7 +106,7 @@
             android:layout_height="1dp"
             android:layout_marginTop="115dp"
             android:background="#666464"
-
+            android:layout_marginLeft="45dp"
             />
 
 
@@ -111,6 +114,7 @@
 
 
         <TextView
+            android:drawablePadding="4dp"
             android:layout_marginLeft="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -153,7 +157,7 @@
             android:layout_height="1dp"
             android:layout_marginTop="175dp"
             android:background="#666464"
-
+            android:layout_marginLeft="45dp"
             />
 
         <Button
@@ -167,23 +171,50 @@
             android:drawableLeft="@drawable/lock"
             android:textAlignment="textStart"
             android:layout_gravity="start"
-            android:layout_marginLeft="15dp"
             android:textSize="15dp"
+            android:paddingLeft="15dp"
+            android:drawablePadding="4dp"
             />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="250dp"
+            android:layout_marginTop="245dp"
             android:background="#666464"
 
             />
 
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:background="#ffff">
 
 
+        <Button
+            android:id="@+id/rate_s"
+            android:layout_width="420dp"
+            android:layout_height="65dp"
+            android:layout_gravity="start"
+            android:background="#fff"
+            android:drawableLeft="@drawable/star"
+            android:drawableRight="@drawable/ic_chevron_right_black_24dp"
+            android:drawablePadding="4dp"
+            android:paddingLeft="15dp"
+            android:text="Rate The App"
+            android:textAlignment="textStart"
+            android:textSize="15dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="65dp"
+            android:background="#666464"
 
-
+            />
 
     </RelativeLayout>
+
 
 
 
