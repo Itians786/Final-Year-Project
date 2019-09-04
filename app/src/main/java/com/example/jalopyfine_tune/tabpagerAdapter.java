@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 public class tabpagerAdapter extends FragmentStatePagerAdapter {
 
-    Integer tabnumber=3;
+    Integer tabnumber=2;
     public tabpagerAdapter(FragmentManager fm) {
         super(fm);
     }
@@ -25,9 +25,9 @@ public class tabpagerAdapter extends FragmentStatePagerAdapter {
                 Car tab2 = new Car();
                 return tab2;
 
-            case 2:
-                Other tab3 = new Other();
-                return tab3;
+           // case 2:
+             //   Other tab3 = new Other();
+               // return tab3;
             default:
                 return null;
         }

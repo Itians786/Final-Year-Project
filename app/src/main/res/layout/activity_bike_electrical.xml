@@ -21,8 +21,9 @@
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            android:background="@android:color/transparent"
-            app:toolbarId="@+id/toolbar">
+            android:background="@color/colorPrimary"
+            app:toolbarId="@+id/toolbar"
+            >
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/b_toolbar"
