@@ -59,15 +59,21 @@
             android:id="@+id/settings_imageView"
             android:layout_width="180dp"
             android:layout_height="170dp"
-            android:src="@drawable/profile"
-            android:background="@drawable/textedit"
+
+            android:background="#DBD3D3"
             />
 
         <Button
             android:id="@+id/changePic"
             android:text="Change Picture"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="130dp"
+            android:background="#ffff"
+            android:layout_marginLeft="30dp"
+
+            />
+
     </LinearLayout>
 
     <ScrollView

@@ -59,10 +59,11 @@ public class SignUp extends AppCompatActivity {
             }
         };
 
+
         sign_in.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(SignUp.this, PhoneSignIn.class);
+                Intent in = new Intent(SignUp.this, emailSignIn.class);
                 startActivity(in);
             }
         });
