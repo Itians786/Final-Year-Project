@@ -43,6 +43,8 @@ import java.util.Map;
 
 public class setting extends AppCompatActivity {
 
+    ProgressDialog progressDialog;
+
     private ImageView imgView;
     private TextView txt_name, txt_mobile, txt_email;
     private Button btn_name, btn_mobile, btn_email, btn_changePic;
@@ -71,6 +73,10 @@ public class setting extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Loading...");
+        progressDialog.show();
 
         imgView = (ImageView) findViewById(R.id.settings_imageView);
 
@@ -170,6 +176,7 @@ public class setting extends AppCompatActivity {
                                 imgView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, imgView.getWidth(), imgView.getHeight(), false));
                             }
                         });
+                        progressDialog.dismiss();
                     }
                 }
             }
@@ -214,6 +221,7 @@ public class setting extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
+                        dialogInterface.cancel();
                     }
                 });
 
@@ -226,7 +234,7 @@ public class setting extends AppCompatActivity {
         alertDialogBuilderPhone.setView(et_newInfoPhone);
 
         alertDialogBuilderPhone
-                .setTitle("Change name")
+                .setTitle("Change mobile number")
                 .setMessage(uPhone)
                 .setCancelable(false)
                 .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
@@ -243,6 +251,7 @@ public class setting extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
+                        dialogInterface.cancel();
                     }
                 });
 
@@ -255,7 +264,7 @@ public class setting extends AppCompatActivity {
         alertDialogBuilderEmail.setView(et_newInfoEmail);
 
         alertDialogBuilderEmail
-                .setTitle("Change name")
+                .setTitle("Change email")
                 .setMessage(uMail)
                 .setCancelable(false)
                 .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
@@ -272,6 +281,7 @@ public class setting extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
+                        dialogInterface.cancel();
                     }
                 });
 
@@ -281,9 +291,9 @@ public class setting extends AppCompatActivity {
 
     public void changePicture(){
         if (resultUri != null){
-            final ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Uploading...");
-            progressDialog.show();
+            final ProgressDialog progDialog = new ProgressDialog(this);
+            progDialog.setTitle("Uploading...");
+            progDialog.show();
 
             final StorageReference filePath = FirebaseStorage.getInstance().getReference().child("profile_Images").child(userID);
             Bitmap bitmap = null;
@@ -313,10 +323,8 @@ public class setting extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<Uri> task) {
                     if (task.isSuccessful()) {
-                        progressDialog.dismiss();
+                        progDialog.dismiss();
                         Uri downloadUri = task.getResult();
-
-
 
                         if (downloadUri == null) {
                             Toast.makeText(setting.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
