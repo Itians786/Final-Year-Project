@@ -20,8 +20,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-            <requestFocus />
-
         </EditText>
 
         <EditText
@@ -31,8 +29,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-            <requestFocus />
-
         </EditText>
 
         <EditText
@@ -41,8 +37,6 @@
             android:hint="Add new"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
-
-            <requestFocus />
 
         </EditText>
 
