@@ -39,12 +39,12 @@ public class userProfile extends AppCompatActivity {
 
     private ImageView prof_Img;
 
-    private TextView et_name, et_phone;
+    private TextView et_name, et_phone, et_email;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mCustomerDatabase;
 
-    private String userID, mName, mPhone, mProfileImageUrl;
+    private String userID, mName, mPhone,memail, mProfileImageUrl;
 
     private Uri resultUri;
 
@@ -57,12 +57,22 @@ public class userProfile extends AppCompatActivity {
 
         et_name = (TextView) findViewById(R.id.name);
         et_phone = (TextView) findViewById(R.id.phone);
+        et_email = (TextView) findViewById(R.id.em);
 
 
 
         mAuth = FirebaseAuth.getInstance();
         userID = mAuth.getCurrentUser().getUid();
         mCustomerDatabase = FirebaseDatabase.getInstance().getReference().child("Customers").child(userID);
+
+        prof_Img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, 1);
+            }
+        });
 
         getUserInfo();
     }
@@ -80,6 +90,10 @@ public class userProfile extends AppCompatActivity {
                     if (map.get("phone") != null){
                         mPhone = map.get("phone").toString();
                         et_phone.setText(mPhone);
+                    }
+                    if (map.get("email") != null){
+                        memail = map.get("email").toString();
+                        et_email.setText(memail);
                     }
                     if (map.get("profileImageUrl") != null){
                         mProfileImageUrl = map.get("profileImageUrl").toString();
