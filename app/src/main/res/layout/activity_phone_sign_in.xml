@@ -5,87 +5,83 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PhoneSignIn"
-    android:orientation="vertical">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="105dp"
-        android:src="@drawable/app_logo"/>
-
+    android:orientation="vertical"
+    android:background="@drawable/signin">
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/withPhone"
-            android:text="Phone Signin"
-            android:textSize="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/withEmail"
-            android:text="Email SignIn"
-            android:textSize="30dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
+            android:layout_height="180sp"
+            android:src="@drawable/app_logo_tsp"
+            />
     </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/layout_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="30dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="40dp"
         android:orientation="vertical">
 
         <EditText
             android:id="@+id/phone_number"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Phone Number"
-            android:inputType="phone" />
+            android:layout_height="45dp"
+            android:background="@drawable/edit_round"
+            android:drawableLeft="@drawable/ic_call_black_24dp"
+            android:drawablePadding="2dip"
+            android:paddingLeft="5dip"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:selectAllOnFocus="true"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:textColorHint="#ffffff"
+            android:textSize="20dp" />
 
         <Button
             android:id="@+id/request_code"
-            android:layout_width="wrap_content"
+            android:layout_width="300sp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Request Code" />
+            android:text="Request Code"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:textColorHint="#ffffff"
+            android:textSize="20dp"
+            />
 
         <EditText
             android:id="@+id/code"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter verification code "
-            android:inputType="numberPassword" />
+            android:layout_height="45dp"
+            android:background="@drawable/edit_round"
+            android:drawablePadding="2dip"
+            android:paddingLeft="5dip"
+            android:hint="Verification Coad"
+            android:layout_marginTop="10dp"
+            android:inputType="textEmailAddress"
+            android:selectAllOnFocus="true"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:textColorHint="#ffffff"
+            android:textSize="20dp"  />
 
         <Button
             android:id="@+id/login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Login" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_email"
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <fragment
-            android:id="@+id/fragment"
-            android:name="com.example.jalopyfine_tune.emailSignIn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_round"
+            android:text="SIGN IN"
+            android:textAllCaps="false"
+            android:textSize="30sp"
+            android:textColor="#ffffff"></Button>
 
+</LinearLayout>
 </LinearLayout>

@@ -42,35 +42,12 @@ public class PhoneSignIn extends AppCompatActivity {
         setContentView(R.layout.activity_phone_sign_in);
 
         mAuth = FirebaseAuth.getInstance();
-
-        textView_email = (TextView) findViewById(R.id.withEmail);
-        textView_phone = (TextView) findViewById(R.id.withPhone);
-
-        emailLayout = (LinearLayout) findViewById(R.id.layout_email);
         phoneLayout = (LinearLayout) findViewById(R.id.layout_phone);
 
         phoneNumber = findViewById(R.id.phone_number);
         verificationCode = findViewById(R.id.code);
         requestCode = findViewById(R.id.request_code);
         mLogin = findViewById(R.id.login);
-
-        textView_email.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                emailLayout.setVisibility(View.VISIBLE);
-                phoneLayout.setVisibility(View.GONE);
-
-
-            }
-        });
-
-        textView_phone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                phoneLayout.setVisibility(View.VISIBLE);
-                emailLayout.setVisibility(View.GONE);
-            }
-        });
 
         requestCode.setOnClickListener(new View.OnClickListener() {
             @Override

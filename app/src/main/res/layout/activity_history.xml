@@ -20,7 +20,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/historyRecyclerView"
-                android:scrollbars="vertical">
+                android:scrollbars="vertical"
+                android:background="#DFC9C9"
+
+                >
 
             </android.support.v7.widget.RecyclerView>
 
